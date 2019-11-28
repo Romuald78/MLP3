@@ -45,7 +45,7 @@ public class MLP {
 
         // Ok create first layer
         this.inputLayer = new fr.rphstudio.mlp.InputLayer(layerSizes[0]);
-        // Create all following layers and scramble
+        // Create all following
         this.neuronLayers = new ArrayList<>();
         for(int i=1;i<layerSizes.length;i++){
             this.neuronLayers.add( new fr.rphstudio.mlp.NeuronLayer(layerSizes[i],layerSizes[i-1],afs[i-1]) );

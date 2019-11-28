@@ -4,7 +4,7 @@ public class Difference implements CostFunction {
 
     @Override
     public double function(double x, double err) {
-        return (x-err);
+        return (err-x);
     }
 
     @Override

@@ -5,10 +5,12 @@
  */
 package fr.rphstudio.launcher;
 
+import fr.rphstudio.misc.LCD7;
 import fr.rphstudio.mlp.MLP;
 import fr.rphstudio.mlp.activation.ActivationFunction;
 import fr.rphstudio.mlp.activation.Sigmoid;
 import fr.rphstudio.mlp.activation.SoftMax;
+import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Difference;
 import fr.rphstudio.mlp.cost.Quadratic;
@@ -25,7 +27,7 @@ import java.util.List;
 public class State01Start extends BasicGameState
 {
     //------------------------------------------------
-    // PRIVATE STUCTURES
+    // PRIVATE STRUCTURES
     //------------------------------------------------
     private class LayerStruct{
         private LayerStruct(int sz, ActivationFunction a){
@@ -64,7 +66,7 @@ public class State01Start extends BasicGameState
 
 
 
-    private static final int LAYER_SPACE = 20;
+    private static final int LAYER_SPACE = 10;
     private static final int LAYER_WIDTH = 2*LAYER_SPACE + NEURON_WIDTH;
     private static final int LAYER_INTER = 150;
 
@@ -82,6 +84,8 @@ public class State01Start extends BasicGameState
 
     private long              timeWatch;
     private boolean           displayHelp;
+
+
 
 
     //------------------------------------------------
@@ -161,11 +165,11 @@ public class State01Start extends BasicGameState
         // initializes the layer sizes to 1 input, and 1 output layer
         this.layers = new ArrayList<>();
         this.layers.add( new LayerStruct(2, null ) ); // no activation function because this is the input layer
-        this.layers.add( new LayerStruct(2, new Sigmoid() ) );
-        this.layers.add( new LayerStruct(2, new Sigmoid() ) );
-        this.layers.add( new LayerStruct(1, new Sigmoid() ) );
+        this.layers.add( new LayerStruct(3, new TanH() ) );
+        this.layers.add( new LayerStruct(3, new TanH() ) );
+        this.layers.add( new LayerStruct(2, new TanH() ) );
         // Init cost function
-        this.cf = new Difference();
+        this.cf = new Quadratic();
 
         // Init the application
         this.init();
@@ -193,21 +197,37 @@ public class State01Start extends BasicGameState
         this.mlp.scramble();
 
         // TRAIN
-        double[] input1  = {2, -1};
-        double[] input2  = {-1, 2};
-        double[] output1 = { 1 };
-        double[] output2 = { 1 };
         double learningRate = 0.1;
+        double[] input1 = {-1.00, -0.25};
+        double[] input2 = { 0.25,  1.00};
+        double[] out1   = { 0.66,  0.33};
+        double[] out2   = {-0.10, -0.90};
 
-        for(int i=0;i<100;i++){
+        double err = 10000;
+        while(err >= 0.001){
+            err = 0;
             this.mlp.setInputs(input1);
             this.mlp.processForward();
-            this.mlp.backPropagation(output1, learningRate);
+            err += this.mlp.backPropagation(out1, learningRate);
 
             this.mlp.setInputs(input2);
             this.mlp.processForward();
-            this.mlp.backPropagation(output2, learningRate);
+            err += this.mlp.backPropagation(out2, learningRate);
         }
+
+        /* // LCD 7 Segment training
+        double learningRate = 0.01;
+        for(int i=0;i<100000;i++){
+            int x = i%10;
+            x = 0;
+            double[] input = LCD7.getDigitInput(x);
+            double[] output = {0,0,0,0,0,0,0,0,0,0};
+            output[x] = 1;
+            this.mlp.setInputs(input);
+            this.mlp.processForward();
+            this.mlp.backPropagation(output, learningRate);
+        }
+        //*/
 
         System.out.println(this.mlp);
 
@@ -227,7 +247,7 @@ public class State01Start extends BasicGameState
             float yPrev = MID_Y - (hPrev/2) + i*(NEURON_HEIGHT+LAYER_SPACE)+(NEURON_HEIGHT/2)+LAYER_SPACE;
             float xPrev = x-LAYER_INTER-(2*LAYER_SPACE);
             int v = (int)(255*this.mlp.getWeight(numLayer, numNeuron, i));
-            Color clr = new Color(v,v,v);
+            Color clr = new Color(v,v,v,128);
             g.setColor(clr);
             g.drawLine(x+DZ,y+(NEURON_HEIGHT/2),xPrev,yPrev);
         }
@@ -243,6 +263,8 @@ public class State01Start extends BasicGameState
         Color clr = new Color(v,v,0);
         g.setColor(clr);
         g.fillOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
+        g.setColor(Color.yellow);
+        g.drawOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
     }
 
     private void renderInput( Graphics g, float x, float y, int numInput ){
@@ -255,6 +277,8 @@ public class State01Start extends BasicGameState
         Color clr = new Color(0,v,v);
         g.setColor(clr);
         g.fillOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
+        g.setColor(Color.blue);
+        g.drawOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
     }
 
     private void renderLayer(Graphics g, float xRef, float yMid, int numLayer){
@@ -301,8 +325,8 @@ public class State01Start extends BasicGameState
             for(int neuronNum=0;neuronNum<N;neuronNum++){
                 // convert j to outY (output position of the current neuron of the current layer)
                 double outY = midY+(neuronNum*(NEURON_HEIGHT+LAYER_SPACE))+(NEURON_HEIGHT/2)+LAYER_SPACE;
-                this.gameObject.getContainer().getGraphics().setColor(Color.green);
-                this.gameObject.getContainer().getGraphics().drawRect((float)(outX)-OUT_BOX/2.0f,(float)(outY)-OUT_BOX/2.0f,OUT_BOX,OUT_BOX);
+                //this.gameObject.getContainer().getGraphics().setColor(Color.green);
+                //this.gameObject.getContainer().getGraphics().drawRect((float)(outX)-OUT_BOX/2.0f,(float)(outY)-OUT_BOX/2.0f,OUT_BOX,OUT_BOX);
                 if( x>= (float)(outX)-OUT_BOX/2 && x<= (float)(outX)+OUT_BOX/2 && y>= (float)(outY)-OUT_BOX/2 && y<= (float)(outY)+OUT_BOX/2 ){
                     msg  = String.format("NEURON %d-%d\n", layerNum, neuronNum);
                     msg += String.format("A=%.6f\n", this.mlp.getOutput(layerNum,neuronNum));
@@ -364,30 +388,26 @@ public class State01Start extends BasicGameState
     //------------------------------------------------
     // UPDATE METHOD
     //------------------------------------------------
-    private boolean flag = false;
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException
     {
 
-        //*
         // measure time
         this.timeWatch += delta;
 
-        double[] input1 = {2, -1};
-        double[] input2 = {-1, 2};
-
-
+        //*
         // check when we have to perform operation
         if(this.timeWatch > 1000){
             this.timeWatch -= 1000;
 
-            this.flag = !this.flag;
-            if(this.flag){
-                this.mlp.setInputs(input1);
-            }
-            else{
-                this.mlp.setInputs(input2);
+            // get digit according to time
+            int x = (int)(System.currentTimeMillis()/1000)%2;
+            double[] input = {-1.00, -0.25};
+            if(x==0){
+                input[0] = 0.25;
+                input[1] = 1.00;
             }
 
+            this.mlp.setInputs(input);
             this.mlp.processForward();
         }
         //*/
