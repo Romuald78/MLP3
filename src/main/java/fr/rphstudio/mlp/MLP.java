@@ -80,27 +80,39 @@ public class MLP {
     // Back propagation process
     public double backPropagation(double[] expectedOut, double learningRate){
 
+        // Check if we have only one NEURON LAYER (+INPUT)
         // Get layer references (last and previous ones)
         int layerIndex = this.neuronLayers.size()-1;
         fr.rphstudio.mlp.NeuronLayer curLayer  = this.neuronLayers.get(layerIndex);
-        fr.rphstudio.mlp.NeuronLayer prevLayer = this.neuronLayers.get(layerIndex-1);
+        fr.rphstudio.mlp.NeuronLayer prevLayer = null;
+
+        //--------------------------------------------
+        //--------------- Prepare DJA ----------------
+        //--------------------------------------------
+        // Compute DJA
+        double[]   DJA = BackPropUtils.computeDJA( curLayer.A, expectedOut, this.costFunction );
+        double[]   DJZ = null;
+        double[][] DJW = null;
+        double[]   DJB = null;
+
 
         //--------------------------------------------
         //---------- Compute the last layer ----------
         //--------------------------------------------
-        // Compute DJA
-        double[] DJA = BackPropUtils.computeDJA( curLayer.A, expectedOut, this.costFunction );
-        // Compute DJZ
-        double[] DJZ = BackPropUtils.computeDJZ( DJA, curLayer.Z, curLayer.af );
-        // Compute DJW
-        double[][] DJW = BackPropUtils.computeDJW( DJZ, prevLayer.A );
-        // Compute DJB
-        double[] DJB = BackPropUtils.computeDJB( DJZ );
-        // Compute DJA for the previous layer (for the next round of backprop)
-        DJA = BackPropUtils.computeDJA( DJZ, curLayer.W);
-        // Update Weights and BIAS of the last layer, according to DJW and DJb
-        curLayer.updateWeightsAndBias(DJW, DJB, learningRate);
-
+        if(this.neuronLayers.size() > 1) {
+            // Get previous layer value
+            prevLayer = this.neuronLayers.get(layerIndex - 1);
+            // Compute DJZ
+            DJZ = BackPropUtils.computeDJZ(DJA, curLayer.Z, curLayer.af);
+            // Compute DJW
+            DJW = BackPropUtils.computeDJW(DJZ, prevLayer.A);
+            // Compute DJB
+            DJB = BackPropUtils.computeDJB(DJZ);
+            // Compute DJA for the previous layer (for the next round of backprop)
+            DJA = BackPropUtils.computeDJA(DJZ, curLayer.W);
+            // Update Weights and BIAS of the last layer, according to DJW and DJb
+            curLayer.updateWeightsAndBias(DJW, DJB, learningRate);
+        }
 
 
         //-------------------------------------------------------------------------

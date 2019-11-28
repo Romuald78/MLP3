@@ -12,7 +12,6 @@ import fr.rphstudio.mlp.activation.Sigmoid;
 import fr.rphstudio.mlp.activation.SoftMax;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
-import fr.rphstudio.mlp.cost.Difference;
 import fr.rphstudio.mlp.cost.Quadratic;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
@@ -196,42 +195,61 @@ public class State01Start extends BasicGameState
         this.mlp = new MLP( sizes, afs, this.cf );
         this.mlp.scramble();
 
-        // TRAIN
+
+
+        //*
+        // TRAIN single values
         double learningRate = 0.1;
-        double[] input1 = {-1.00, -0.25};
-        double[] input2 = { 0.25,  1.00};
-        double[] out1   = { 0.66,  0.33};
-        double[] out2   = {-0.10, -0.90};
+        double[] input1 = {-1.00, -0.50};
+        double[] input2 = {-0.25,  0.25};
+        double[] input3 = { 0.75,  0.66};
+        double[] out1   = {-0.33, -0.66};
+        double[] out2   = {-0.10,  0.10};
+        double[] out3   = { 0.90,  0.80};
 
         double err = 10000;
-        while(err >= 0.001){
+        while(err >= 0.0000001){
             err = 0;
             this.mlp.setInputs(input1);
             this.mlp.processForward();
             err += this.mlp.backPropagation(out1, learningRate);
-
             this.mlp.setInputs(input2);
             this.mlp.processForward();
             err += this.mlp.backPropagation(out2, learningRate);
-        }
-
-        /* // LCD 7 Segment training
-        double learningRate = 0.01;
-        for(int i=0;i<100000;i++){
-            int x = i%10;
-            x = 0;
-            double[] input = LCD7.getDigitInput(x);
-            double[] output = {0,0,0,0,0,0,0,0,0,0};
-            output[x] = 1;
-            this.mlp.setInputs(input);
+            this.mlp.setInputs(input3);
             this.mlp.processForward();
-            this.mlp.backPropagation(output, learningRate);
+            err += this.mlp.backPropagation(out3, learningRate);
         }
         //*/
 
+
+        /*
+        // TRAIN LCD 7 Segment
+        double learningRate = 0.1;
+        double err = 10000;
+        double errMin = 10000;
+        while(err >= 5.9){
+            err = 0;
+            double[] input = null;
+            double[] output = {0,0,0,0,0,0,0,0,0,0};
+            for(int x=0; x<10;x++){
+                input = LCD7.getDigitInput(x);
+                output[x] = 1;
+                this.mlp.setInputs(input);
+                this.mlp.processForward();
+                err += this.mlp.backPropagation(output, learningRate);
+            }
+            // update learing rate according to error
+            learningRate = err/10;
+            if(errMin > err){
+                errMin = err;
+                System.out.println(errMin);
+            }
+        }
+        //*/
+
+        // display final MLP configuration
         System.out.println(this.mlp);
-
-
     }
 
     private void renderNeuron( Graphics g, float x, float y, int numLayer, int numNeuron ){
@@ -390,29 +408,32 @@ public class State01Start extends BasicGameState
     //------------------------------------------------
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException
     {
-
         // measure time
         this.timeWatch += delta;
 
-        //*
         // check when we have to perform operation
         if(this.timeWatch > 1000){
             this.timeWatch -= 1000;
 
-            // get digit according to time
-            int x = (int)(System.currentTimeMillis()/1000)%2;
-            double[] input = {-1.00, -0.25};
-            if(x==0){
-                input[0] = 0.25;
-                input[1] = 1.00;
+            double[] input1 = {-1.00, -0.50};
+            double[] input2 = {-0.25,  0.25};
+            double[] input3 = { 0.75,  0.66};
+            double[] input = null;
+            int x = (int)(System.currentTimeMillis()/1000)%3;
+            if(x == 0){
+                input = input1;
+            }
+            else if(x == 1){
+                input = input2;
+            }
+            else if(x == 2){
+                input = input3;
             }
 
+            // process forward
             this.mlp.setInputs(input);
             this.mlp.processForward();
         }
-        //*/
-
-
     }
     
     
