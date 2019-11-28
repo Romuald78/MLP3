@@ -96,10 +96,12 @@ public class MLP {
         double[][] DJW = BackPropUtils.computeDJW( DJZ, prevLayer.A );
         // Compute DJB
         double[] DJB = BackPropUtils.computeDJB( DJZ );
-        // Update Weights and BIAS of the last layer, according to DJW and DJb
-        curLayer.updateWeightsAndBias(DJW, DJB, learningRate);
         // Compute DJA for the previous layer (for the next round of backprop)
         DJA = BackPropUtils.computeDJA( DJZ, curLayer.W);
+        // Update Weights and BIAS of the last layer, according to DJW and DJb
+        curLayer.updateWeightsAndBias(DJW, DJB, learningRate);
+
+
 
         //-------------------------------------------------------------------------
         //---------- Compute each hidden layer (except the first hidden) ----------
@@ -114,10 +116,10 @@ public class MLP {
             DJW = BackPropUtils.computeDJW( DJZ, prevLayer.A );
             // Compute DJB
             DJB = BackPropUtils.computeDJB( DJZ );
-            // Update Weights and BIAS of the current layer, according to DJW and DJB
-            curLayer.updateWeightsAndBias(DJW, DJB, learningRate);
             // Compute DJA for the previous layer (for the next round of backprop)
             DJA = BackPropUtils.computeDJA( DJZ, curLayer.W);
+            // Update Weights and BIAS of the current layer, according to DJW and DJB
+            curLayer.updateWeightsAndBias(DJW, DJB, learningRate);
         }
 
         //-----------------------------------------------------------------------------
@@ -173,6 +175,17 @@ public class MLP {
             return this.neuronLayers.get(numLayer-1).A[numNeuron];
         }
     }
+
+    public double getNetwork(int numLayer, int numNeuron){
+        if(numLayer == 0){
+            return -1;
+        }
+        else{
+            return this.neuronLayers.get(numLayer-1).Z[numNeuron];
+        }
+    }
+
+
 
     public void setWeight(int numLayer, int numNeuron, int prevNumNeuron, double value){
         this.neuronLayers.get(numLayer-1).W[numNeuron][prevNumNeuron] = value;

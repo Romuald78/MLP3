@@ -81,7 +81,7 @@ public class State01Start extends BasicGameState
     private MLP               mlp;
 
     private long              timeWatch;
-
+    private boolean           displayHelp;
 
 
     //------------------------------------------------
@@ -172,6 +172,8 @@ public class State01Start extends BasicGameState
 
         // init timewatch
         this.timeWatch = 0;
+        // init help display
+        this.displayHelp = false;
     }
 
     public void init()
@@ -188,31 +190,24 @@ public class State01Start extends BasicGameState
         }
         // instanciate MLP
         this.mlp = new MLP( sizes, afs, this.cf );
-        // this.mlp.scramble();
-
-
-        // Set weights for debug
-        this.mlp.setWeight(1, 0, 0, 0.5 );
-        this.mlp.setWeight(1, 0, 1, 1.5 );
-        this.mlp.setWeight(1, 1, 0, -1 );
-        this.mlp.setWeight(1, 1, 1, -2 );
-        this.mlp.setWeight(2, 0, 0, 1 );
-        this.mlp.setWeight(2, 0, 1, 3 );
-        this.mlp.setWeight(2, 1, 0, -1 );
-        this.mlp.setWeight(2, 1, 1, -4 );
-        this.mlp.setWeight(3, 0, 0, 1 );
-        this.mlp.setWeight(3, 0, 1, -3 );
-
-
+        this.mlp.scramble();
 
         // TRAIN
-        double[] input  = {2, -1};
-        double[] output = { 1 };
+        double[] input1  = {2, -1};
+        double[] input2  = {-1, 2};
+        double[] output1 = { 1 };
+        double[] output2 = { 1 };
         double learningRate = 0.1;
 
-        this.mlp.setInputs(input);
-        this.mlp.processForward();
-        this.mlp.backPropagation(output, learningRate);
+        for(int i=0;i<100;i++){
+            this.mlp.setInputs(input1);
+            this.mlp.processForward();
+            this.mlp.backPropagation(output1, learningRate);
+
+            this.mlp.setInputs(input2);
+            this.mlp.processForward();
+            this.mlp.backPropagation(output2, learningRate);
+        }
 
         System.out.println(this.mlp);
 
@@ -294,22 +289,31 @@ public class State01Start extends BasicGameState
     private String getMessage(float x, float y){
         String msg = null;
         // check each X output
-        for(int i=0;i<this.mlp.getNbLayers();i++){
+        for(int layerNum=0;layerNum<this.mlp.getNbLayers();layerNum++){
             // Get number of neurons for this layer
-            int N = this.mlp.getNbNeurons(i);
+            int N = this.mlp.getNbNeurons(layerNum);
             // Get y ref for this layer
             float h    = LAYER_SPACE+N*(NEURON_HEIGHT+LAYER_SPACE);
             float midY = MID_Y - (h/2);
             // convert i to outX (output position of a layer)
-            double outX = REF_X+(i*(LAYER_WIDTH+LAYER_INTER))+LAYER_WIDTH-LAYER_SPACE;
+            double outX = REF_X+(layerNum*(LAYER_WIDTH+LAYER_INTER))+LAYER_WIDTH-LAYER_SPACE;
             // Check each neuron in the current layer
-            for(int j=0;j<N;j++){
+            for(int neuronNum=0;neuronNum<N;neuronNum++){
                 // convert j to outY (output position of the current neuron of the current layer)
-                double outY = midY+(j*(NEURON_HEIGHT+LAYER_SPACE))+(NEURON_HEIGHT/2)+LAYER_SPACE;
+                double outY = midY+(neuronNum*(NEURON_HEIGHT+LAYER_SPACE))+(NEURON_HEIGHT/2)+LAYER_SPACE;
                 this.gameObject.getContainer().getGraphics().setColor(Color.green);
                 this.gameObject.getContainer().getGraphics().drawRect((float)(outX)-OUT_BOX/2.0f,(float)(outY)-OUT_BOX/2.0f,OUT_BOX,OUT_BOX);
                 if( x>= (float)(outX)-OUT_BOX/2 && x<= (float)(outX)+OUT_BOX/2 && y>= (float)(outY)-OUT_BOX/2 && y<= (float)(outY)+OUT_BOX/2 ){
-                    msg = String.format("%.6f", this.mlp.getOutput(i,j));
+                    msg  = String.format("NEURON %d-%d\n", layerNum, neuronNum);
+                    msg += String.format("A=%.6f\n", this.mlp.getOutput(layerNum,neuronNum));
+                    if(this.displayHelp){
+                        msg += String.format("Z=%.6f\n", this.mlp.getNetwork(layerNum,neuronNum));
+                        if(layerNum>0){
+                            for(int weightNum=0;weightNum<this.mlp.getNbNeurons(layerNum-1);weightNum++){
+                                msg += String.format("W%d=%.6f\n",weightNum, this.mlp.getWeight(layerNum,neuronNum,weightNum));
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -340,17 +344,15 @@ public class State01Start extends BasicGameState
         // Display message according to position
         String msg = this.getMessage(x,y);
         if(msg != null){
-            g.setColor(new Color(0,0,0,160));
-            g.fillRect(x-15,y-25,80,25);
+            int h  = 50;
+            int dy = -55;
+            if(this.displayHelp){
+                h = 125;
+            }
+            g.setColor(new Color(0,128,0,192));
+            g.fillRect(x-55,y+dy,120,h);
             g.setColor(Color.white);
-            g.drawString(msg,x-10,y-20);
-        }
-        else{
-            //*
-            g.setColor(Color.magenta);
-            g.fillRect(x-10,y-10,20,20);
-            g.drawString(x+"/"+y, x-100,y-25);
-            //*/
+            g.drawString(msg,x-50,y+dy+5);
         }
 
         // Render version number
@@ -362,18 +364,30 @@ public class State01Start extends BasicGameState
     //------------------------------------------------
     // UPDATE METHOD
     //------------------------------------------------
+    private boolean flag = false;
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException
     {
 
-        /*
+        //*
         // measure time
         this.timeWatch += delta;
 
+        double[] input1 = {2, -1};
+        double[] input2 = {-1, 2};
+
+
         // check when we have to perform operation
-        if(this.timeWatch > 100){
-            this.timeWatch -= 100;
-            double[] input = {Math.random(), Math.random()};
-            this.mlp.setInputs(input);
+        if(this.timeWatch > 1000){
+            this.timeWatch -= 1000;
+
+            this.flag = !this.flag;
+            if(this.flag){
+                this.mlp.setInputs(input1);
+            }
+            else{
+                this.mlp.setInputs(input2);
+            }
+
             this.mlp.processForward();
         }
         //*/
@@ -394,11 +408,15 @@ public class State01Start extends BasicGameState
             case Input.KEY_ESCAPE:
                 this.quitGame();
                 break;
+            // Toggle full screen mode ON/OFF
             case Input.KEY_F11:
                 try {
                     this.container.setFullscreen(!this.container.isFullscreen());
                 }catch(SlickException se){}
                 break;
+            // Display details (DEBUG)
+            case Input.KEY_H:
+                this.displayHelp = !this.displayHelp;
             // go to game
             // all other keys have no effect
             default :     
