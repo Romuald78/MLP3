@@ -197,6 +197,34 @@ public class State01Start extends BasicGameState
 
 
 
+
+        /*
+        double learningRate = 0.1;
+        double[] in  = {0,0};
+        double[] out = {0};
+
+        double err = 10000;
+        long   nbTrainings = 0;
+        while(err >= 0.1) {
+            err = 0;
+            for(double x=-1;x<=1;x+=0.5){
+                for(double y=-1;y<=1;y+=0.5){
+                    in[0] = x;
+                    in[1] = y;
+                    x *= 5;
+                    y *= 5;
+                    y += 10;
+                    out[0] = (3*x)/(5*y);
+                    this.mlp.setInputs(in);
+                    this.mlp.processForward();
+                    err += this.mlp.backPropagation(out, learningRate);
+                    nbTrainings++;
+                }
+            }
+        }
+        System.out.println("Number of trainings = "+nbTrainings);
+        //*/
+
         //*
         // TRAIN single values
         double learningRate = 0.1;
@@ -208,6 +236,7 @@ public class State01Start extends BasicGameState
         double[] out3   = { 0.90,  0.80};
 
         double err = 10000;
+        long   nbTrainings = 0;
         while(err >= 0.0000001){
             err = 0;
             this.mlp.setInputs(input1);
@@ -219,7 +248,9 @@ public class State01Start extends BasicGameState
             this.mlp.setInputs(input3);
             this.mlp.processForward();
             err += this.mlp.backPropagation(out3, learningRate);
+            nbTrainings += 3;
         }
+        System.out.println("Number of trainings = "+nbTrainings);
         //*/
 
 
@@ -228,7 +259,7 @@ public class State01Start extends BasicGameState
         double learningRate = 0.1;
         double err = 10000;
         double errMin = 10000;
-        while(err >= 5.9){
+        while(err >= 43){
             err = 0;
             double[] input = null;
             double[] output = {0,0,0,0,0,0,0,0,0,0};
@@ -264,7 +295,7 @@ public class State01Start extends BasicGameState
             float hPrev = LAYER_SPACE+N*(NEURON_HEIGHT+LAYER_SPACE);
             float yPrev = MID_Y - (hPrev/2) + i*(NEURON_HEIGHT+LAYER_SPACE)+(NEURON_HEIGHT/2)+LAYER_SPACE;
             float xPrev = x-LAYER_INTER-(2*LAYER_SPACE);
-            int v = (int)(255*this.mlp.getWeight(numLayer, numNeuron, i));
+            int v = (int)(128*this.mlp.getWeight(numLayer, numNeuron, i))+127;
             Color clr = new Color(v,v,v,128);
             g.setColor(clr);
             g.drawLine(x+DZ,y+(NEURON_HEIGHT/2),xPrev,yPrev);
@@ -277,7 +308,7 @@ public class State01Start extends BasicGameState
         // Draw AF circle
         g.fillOval(x+DZ+DAF-(CIRCLE_WIDTH/2),y+(NEURON_HEIGHT-CIRCLE_HEIGHT)/2,CIRCLE_WIDTH,CIRCLE_HEIGHT);
         // Draw OUT circle
-        int v = (int)(255*this.mlp.getOutput(numLayer,numNeuron));
+        int v = (int)(128*this.mlp.getOutput(numLayer,numNeuron))+127;
         Color clr = new Color(v,v,0);
         g.setColor(clr);
         g.fillOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
@@ -291,7 +322,7 @@ public class State01Start extends BasicGameState
         g.setColor(Color.blue);
         g.drawRect(x,y,NEURON_WIDTH,NEURON_HEIGHT);
         // Draw OUT circle
-        int v = (int)(255*this.mlp.getOutput(0,numInput));
+        int v = (int)(128*this.mlp.getOutput(0,numInput))+127;
         Color clr = new Color(0,v,v);
         g.setColor(clr);
         g.fillOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
@@ -406,20 +437,32 @@ public class State01Start extends BasicGameState
     //------------------------------------------------
     // UPDATE METHOD
     //------------------------------------------------
+    private static final int TIME_STEP = 1000;
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException
     {
         // measure time
         this.timeWatch += delta;
 
         // check when we have to perform operation
-        if(this.timeWatch > 1000){
-            this.timeWatch -= 1000;
 
+        if(this.timeWatch > TIME_STEP){
+            this.timeWatch -= TIME_STEP;
+
+            /*
+            double[] input = {0,0};
+            double x = (int)(3*Math.random())-1; // 2*Math.random()-1;
+            double y = (int)(3*Math.random())-1; // 2*Math.random()-1;
+            input[0] = x;
+            input[1] = y;
+            //*/
+
+
+            //*
             double[] input1 = {-1.00, -0.50};
             double[] input2 = {-0.25,  0.25};
             double[] input3 = { 0.75,  0.66};
             double[] input = null;
-            int x = (int)(System.currentTimeMillis()/1000)%3;
+            int x = Math.abs((int)(System.currentTimeMillis()/TIME_STEP))%3;
             if(x == 0){
                 input = input1;
             }
@@ -429,10 +472,22 @@ public class State01Start extends BasicGameState
             else if(x == 2){
                 input = input3;
             }
+            else{
+                throw new Error("IMPOSSIBLE VALUE "+x);
+            }
+            //*/
+
+            /*
+            int x = (int)(System.currentTimeMillis()/TIME_STEP)%10;
+            double[] input = LCD7.getDigitInput(x);
+            //*/
 
             // process forward
             this.mlp.setInputs(input);
             this.mlp.processForward();
+
+//            double out = this.mlp.getOutput( this.mlp.getNbLayers()-1, 0 );
+//            System.out.println("x="+x+"/y="+y+"/o="+out);
         }
     }
     
