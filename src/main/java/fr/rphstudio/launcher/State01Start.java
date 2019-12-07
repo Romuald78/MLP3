@@ -8,8 +8,6 @@ package fr.rphstudio.launcher;
 import fr.rphstudio.misc.LCD7;
 import fr.rphstudio.mlp.MLP;
 import fr.rphstudio.mlp.activation.ActivationFunction;
-import fr.rphstudio.mlp.activation.Sigmoid;
-import fr.rphstudio.mlp.activation.SoftMax;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
@@ -163,10 +161,10 @@ public class State01Start extends BasicGameState
 
         // initializes the layer sizes to 1 input, and 1 output layer
         this.layers = new ArrayList<>();
-        this.layers.add( new LayerStruct(2, null ) ); // no activation function because this is the input layer
+        this.layers.add( new LayerStruct(2 , null ) ); // no activation function because this is the input layer
         this.layers.add( new LayerStruct(3, new TanH() ) );
         this.layers.add( new LayerStruct(3, new TanH() ) );
-        this.layers.add( new LayerStruct(2, new TanH() ) );
+        this.layers.add( new LayerStruct(1, new TanH() ) );
         // Init cost function
         this.cf = new Quadratic();
 
@@ -199,34 +197,7 @@ public class State01Start extends BasicGameState
 
 
         /*
-        double learningRate = 0.1;
-        double[] in  = {0,0};
-        double[] out = {0};
-
-        double err = 10000;
-        long   nbTrainings = 0;
-        while(err >= 0.1) {
-            err = 0;
-            for(double x=-1;x<=1;x+=0.5){
-                for(double y=-1;y<=1;y+=0.5){
-                    in[0] = x;
-                    in[1] = y;
-                    x *= 5;
-                    y *= 5;
-                    y += 10;
-                    out[0] = (3*x)/(5*y);
-                    this.mlp.setInputs(in);
-                    this.mlp.processForward();
-                    err += this.mlp.backPropagation(out, learningRate);
-                    nbTrainings++;
-                }
-            }
-        }
-        System.out.println("Number of trainings = "+nbTrainings);
-        //*/
-
-        //*
-        // TRAIN single values
+        // TRAIN 3 SIMPLE VALUES
         double learningRate = 0.1;
         double[] input1 = {-1.00, -0.50};
         double[] input2 = {-0.25,  0.25};
@@ -256,26 +227,58 @@ public class State01Start extends BasicGameState
 
         /*
         // TRAIN LCD 7 Segment
-        double learningRate = 0.1;
-        double err = 10000;
+        double learningRate = 0.2;
+        double err    = 10000;
         double errMin = 10000;
-        while(err >= 43){
+        while(err >= 180){
             err = 0;
             double[] input = null;
-            double[] output = {0,0,0,0,0,0,0,0,0,0};
-            for(int x=0; x<10;x++){
+            double[] output = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+            for(int x=0; x<10; x++){
                 input = LCD7.getDigitInput(x);
                 output[x] = 1;
                 this.mlp.setInputs(input);
                 this.mlp.processForward();
                 err += this.mlp.backPropagation(output, learningRate);
             }
-            // update learing rate according to error
-            learningRate = err/10;
+            learningRate = err/1000;
             if(errMin > err){
                 errMin = err;
                 System.out.println(errMin);
             }
+            else{
+                System.out.println(errMin);
+            }
+        }
+        //*/
+
+
+        //* TRAIN XOR
+        double learningRate = 0.1;
+        double[] input00 = {-1, -1};
+        double[] input10 = { 1, -1};
+        double[] input01 = {-1,  1};
+        double[] input11 = { 1,  1};
+        double[] out0   = {-1};
+        double[] out1   = { 1};
+
+        double err = 1;
+        long   nbTrainings = 0;
+        while(err >= 0.001) {
+            err = 0;
+            this.mlp.setInputs(input00);
+            this.mlp.processForward();
+            err += this.mlp.backPropagation(out0, learningRate);
+            this.mlp.setInputs(input10);
+            this.mlp.processForward();
+            err += this.mlp.backPropagation(out1, learningRate);
+            this.mlp.setInputs(input01);
+            this.mlp.processForward();
+            err += this.mlp.backPropagation(out1, learningRate);
+            this.mlp.setInputs(input11);
+            this.mlp.processForward();
+            err += this.mlp.backPropagation(out0, learningRate);
+            System.out.println(err);
         }
         //*/
 
@@ -296,7 +299,7 @@ public class State01Start extends BasicGameState
             float yPrev = MID_Y - (hPrev/2) + i*(NEURON_HEIGHT+LAYER_SPACE)+(NEURON_HEIGHT/2)+LAYER_SPACE;
             float xPrev = x-LAYER_INTER-(2*LAYER_SPACE);
             int v = (int)(128*this.mlp.getWeight(numLayer, numNeuron, i))+127;
-            Color clr = new Color(v,v,v,128);
+            Color clr = new Color(v,v,v,255);
             g.setColor(clr);
             g.drawLine(x+DZ,y+(NEURON_HEIGHT/2),xPrev,yPrev);
         }
@@ -448,16 +451,10 @@ public class State01Start extends BasicGameState
         if(this.timeWatch > TIME_STEP){
             this.timeWatch -= TIME_STEP;
 
+
+
             /*
-            double[] input = {0,0};
-            double x = (int)(3*Math.random())-1; // 2*Math.random()-1;
-            double y = (int)(3*Math.random())-1; // 2*Math.random()-1;
-            input[0] = x;
-            input[1] = y;
-            //*/
-
-
-            //*
+            // PROCESS SIMPLE 3 INPUTS
             double[] input1 = {-1.00, -0.50};
             double[] input2 = {-0.25,  0.25};
             double[] input3 = { 0.75,  0.66};
@@ -477,10 +474,41 @@ public class State01Start extends BasicGameState
             }
             //*/
 
+
             /*
+            // Process LCD 7
             int x = (int)(System.currentTimeMillis()/TIME_STEP)%10;
             double[] input = LCD7.getDigitInput(x);
             //*/
+
+
+            //*
+            // PROCESS XOR
+            double[] input00 = {-1, -1};
+            double[] input10 = { 1, -1};
+            double[] input01 = {-1,  1};
+            double[] input11 = { 1,  1};
+
+            double[] input =null;
+            int x = Math.abs((int)(System.currentTimeMillis()/TIME_STEP))%4;
+            if(x == 0){
+                input = input00;
+            }
+            else if(x == 1){
+                input = input10;
+            }
+            else if(x == 2){
+                input = input01;
+            }
+            else if(x == 3){
+                input = input11;
+            }
+            else{
+                throw new Error("IMPOSSIBLE VALUE "+x);
+            }
+            //*/
+
+
 
             // process forward
             this.mlp.setInputs(input);
