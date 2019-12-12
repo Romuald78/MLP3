@@ -161,10 +161,10 @@ public class State01Start extends BasicGameState
 
         // initializes the layer sizes to 1 input, and 1 output layer
         this.layers = new ArrayList<>();
-        this.layers.add( new LayerStruct(2 , null ) ); // no activation function because this is the input layer
+        this.layers.add( new LayerStruct(7 , null ) ); // no activation function because this is the input layer
         this.layers.add( new LayerStruct(3, new TanH() ) );
-        this.layers.add( new LayerStruct(3, new TanH() ) );
-        this.layers.add( new LayerStruct(1, new TanH() ) );
+        //this.layers.add( new LayerStruct(3, new TanH() ) );
+        this.layers.add( new LayerStruct(10, new TanH() ) );
         // Init cost function
         this.cf = new Quadratic();
 
@@ -225,35 +225,40 @@ public class State01Start extends BasicGameState
         //*/
 
 
-        /*
+        //*
         // TRAIN LCD 7 Segment
-        double learningRate = 0.2;
+        double learningRate = 0.3;
         double err    = 10000;
         double errMin = 10000;
-        while(err >= 180){
+        while(err >= 0.001){
             err = 0;
             double[] input = null;
             double[] output = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-            for(int x=0; x<10; x++){
-                input = LCD7.getDigitInput(x);
-                output[x] = 1;
-                this.mlp.setInputs(input);
-                this.mlp.processForward();
-                err += this.mlp.backPropagation(output, learningRate);
-            }
-            learningRate = err/1000;
+
+            int r = (int)(Math.random()*10);
+            input = LCD7.getDigitInput(r);
+            output[r] = 1;
+            this.mlp.setInputs(input);
+            this.mlp.processForward();
+            err += this.mlp.backPropagation(output, learningRate);
+
+            learningRate = Math.max(err/100, 0.1);
             if(errMin > err){
                 errMin = err;
-                System.out.println(errMin);
+                System.out.print(errMin);
             }
             else{
-                System.out.println(errMin);
+                System.out.print(err);
             }
+        //    System.out.print( " " + r );
+        //    for(int o=0;o<1;o++){
+        //        System.out.print( " / "+this.mlp.getOutput(1,o) );
+        //    }
         }
         //*/
 
 
-        //* TRAIN XOR
+        /* TRAIN XOR
         double learningRate = 0.1;
         double[] input00 = {-1, -1};
         double[] input10 = { 1, -1};
@@ -475,14 +480,14 @@ public class State01Start extends BasicGameState
             //*/
 
 
-            /*
+            //*
             // Process LCD 7
             int x = (int)(System.currentTimeMillis()/TIME_STEP)%10;
             double[] input = LCD7.getDigitInput(x);
             //*/
 
 
-            //*
+            /*
             // PROCESS XOR
             double[] input00 = {-1, -1};
             double[] input10 = { 1, -1};

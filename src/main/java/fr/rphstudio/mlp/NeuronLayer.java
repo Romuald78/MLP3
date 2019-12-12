@@ -35,7 +35,7 @@ public class NeuronLayer {
         for(int y=0;y<this.W.length;y++){
             // Randomize W
             for(int x=0;x<this.W[0].length;x++){
-                this.W[y][x] = 0.9 + (Math.random()*0.2);
+                this.W[y][x] = -1.0 + (Math.random()*2.0);
             }
             // Randomize B
             this.B[y] = -0.1 + (Math.random()*0.2);
