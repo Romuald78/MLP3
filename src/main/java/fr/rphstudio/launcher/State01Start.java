@@ -10,7 +10,11 @@ import fr.rphstudio.mlp.MLP;
 import fr.rphstudio.mlp.activation.ActivationFunction;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
+import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
+import fr.rphstudio.mlp.training.ITraining;
+import fr.rphstudio.mlp.training.TrainerLCD7;
+import fr.rphstudio.mlp.training.TrainerXOR;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -76,8 +80,9 @@ public class State01Start extends BasicGameState
     private String         version;
 
     private List<LayerStruct> layers;
-    private CostFunction      cf;
+    private CostFunction cf;
     private MLP               mlp;
+    private ITraining         trainer;
 
     private long              timeWatch;
     private boolean           displayHelp;
@@ -159,14 +164,29 @@ public class State01Start extends BasicGameState
         // Get version string
         this.getVersion();
 
-        // initializes the layer sizes to 1 input, and 1 output layer
+        // initializes the layer sizes
         this.layers = new ArrayList<>();
-        this.layers.add( new LayerStruct(7 , null ) ); // no activation function because this is the input layer
-        this.layers.add( new LayerStruct(3, new TanH() ) );
-        //this.layers.add( new LayerStruct(3, new TanH() ) );
-        this.layers.add( new LayerStruct(10, new TanH() ) );
         // Init cost function
         this.cf = new Quadratic();
+
+        //* ========== LCD 7 ==========
+        // Create trainer
+        this.trainer = new TrainerLCD7();
+        // Create layers (size + activation functions)
+        this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
+        this.layers.add( new LayerStruct(3, new TanH() ) );
+        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        //*/
+
+        /* ========== XOR ==========
+        // Create trainer
+        this.trainer = new TrainerXOR();
+        // Create layers (size + activation functions)
+        this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
+        this.layers.add( new LayerStruct(2, new TanH() ) );
+        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        //*/
+
 
         // Init the application
         this.init();
@@ -182,6 +202,7 @@ public class State01Start extends BasicGameState
         // Create array of sizes and activation functions
         int[] sizes = new int[this.layers.size()];
         ActivationFunction[] afs = new ActivationFunction[this.layers.size()-1];
+
         // fill arrays
         for(int i=0;i<this.layers.size();i++){
             sizes[i] = this.layers.get(i).layerSize;
@@ -189,109 +210,56 @@ public class State01Start extends BasicGameState
                 afs[i-1] = this.layers.get(i).af;
             }
         }
+
         // instanciate MLP
         this.mlp = new MLP( sizes, afs, this.cf );
         this.mlp.scramble();
 
-
-
-
-        /*
-        // TRAIN 3 SIMPLE VALUES
-        double learningRate = 0.1;
-        double[] input1 = {-1.00, -0.50};
-        double[] input2 = {-0.25,  0.25};
-        double[] input3 = { 0.75,  0.66};
-        double[] out1   = {-0.33, -0.66};
-        double[] out2   = {-0.10,  0.10};
-        double[] out3   = { 0.90,  0.80};
-
-        double err = 10000;
-        long   nbTrainings = 0;
-        while(err >= 0.0000001){
-            err = 0;
-            this.mlp.setInputs(input1);
-            this.mlp.processForward();
-            err += this.mlp.backPropagation(out1, learningRate);
-            this.mlp.setInputs(input2);
-            this.mlp.processForward();
-            err += this.mlp.backPropagation(out2, learningRate);
-            this.mlp.setInputs(input3);
-            this.mlp.processForward();
-            err += this.mlp.backPropagation(out3, learningRate);
-            nbTrainings += 3;
-        }
-        System.out.println("Number of trainings = "+nbTrainings);
-        //*/
-
-
-        //*
-        // TRAIN LCD 7 Segment
-        double learningRate = 0.3;
+        // Train with ITraining interface
+        double learningRate = this.trainer.getMaxLearningRate();
         double err    = 10000;
         double errMin = 10000;
-        while(err >= 0.001){
-            err = 0;
-            double[] input = null;
-            double[] output = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-
-            int r = (int)(Math.random()*10);
-            input = LCD7.getDigitInput(r);
-            output[r] = 1;
+        int countOK  = 0;
+        int countBAD = 0;
+        while(     countOK  < this.trainer.getNbMaxCorrectDataSet()
+                && countBAD < this.trainer.getNbMaxBadDataSet()
+              ){
+            // get random data set number
+            int r = (int)(Math.random()*this.trainer.getNbDataSet());
+            // Get input and output arrays from random data set number
+            double[] input  = this.trainer.getInputDataSet(r);
+            double[] output = this.trainer.getOutputDataSet(r);
+            // Set inputs and process forward
             this.mlp.setInputs(input);
             this.mlp.processForward();
-            err += this.mlp.backPropagation(output, learningRate);
+            // Back propagation + retrieve error value
+            err = this.mlp.backPropagation(output, learningRate);
 
-            learningRate = Math.max(err/100, 0.1);
+            // Set learning rate according to error (in a specific range)
+            learningRate = err/10;
+            learningRate = Math.max(learningRate, this.trainer.getMinLearningRate());
+            learningRate = Math.min(learningRate, this.trainer.getMaxLearningRate());
+            // update minimal error
             if(errMin > err){
                 errMin = err;
-                System.out.print(errMin);
+                System.out.println(errMin);
+            }
+            // Update count
+            if( err < this.trainer.getAllowedError() ){
+                countOK ++;
+                countBAD = 0;
             }
             else{
-                System.out.print(err);
+                countOK = 0;
+                countBAD++;
             }
-        //    System.out.print( " " + r );
-        //    for(int o=0;o<1;o++){
-        //        System.out.print( " / "+this.mlp.getOutput(1,o) );
-        //    }
         }
-        //*/
-
-
-        /* TRAIN XOR
-        double learningRate = 0.1;
-        double[] input00 = {-1, -1};
-        double[] input10 = { 1, -1};
-        double[] input01 = {-1,  1};
-        double[] input11 = { 1,  1};
-        double[] out0   = {-1};
-        double[] out1   = { 1};
-
-        double err = 1;
-        long   nbTrainings = 0;
-        while(err >= 0.001) {
-            err = 0;
-            this.mlp.setInputs(input00);
-            this.mlp.processForward();
-            err += this.mlp.backPropagation(out0, learningRate);
-            this.mlp.setInputs(input10);
-            this.mlp.processForward();
-            err += this.mlp.backPropagation(out1, learningRate);
-            this.mlp.setInputs(input01);
-            this.mlp.processForward();
-            err += this.mlp.backPropagation(out1, learningRate);
-            this.mlp.setInputs(input11);
-            this.mlp.processForward();
-            err += this.mlp.backPropagation(out0, learningRate);
-            System.out.println(err);
-        }
-        //*/
 
         // display final MLP configuration
         System.out.println(this.mlp);
     }
 
-    private void renderNeuron( Graphics g, float x, float y, int numLayer, int numNeuron ){
+    private void renderNeuron( Graphics g, float x, float y, int numLayer, int numNeuron, String label ){
         // update ref position
         y += numNeuron*(NEURON_HEIGHT+LAYER_SPACE);
 
@@ -322,6 +290,11 @@ public class State01Start extends BasicGameState
         g.fillOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
         g.setColor(Color.yellow);
         g.drawOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
+        // draw label
+        if(label != null){
+            g.drawString(label, x+DZ+DAF+DAF + 15, y+(NEURON_HEIGHT-OUT_HEIGHT)/2 - 4 );
+            g.drawString(label, x+DZ+DAF+DAF + 15, y+(NEURON_HEIGHT-OUT_HEIGHT)/2 - 4 );
+        }
     }
 
     private void renderInput( Graphics g, float x, float y, int numInput ){
@@ -338,7 +311,7 @@ public class State01Start extends BasicGameState
         g.drawOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
     }
 
-    private void renderLayer(Graphics g, float xRef, float yMid, int numLayer){
+    private void renderLayer(Graphics g, float xRef, float yMid, int numLayer, String[] labels){
         int N = 0;
         if(numLayer == 0){
             N = this.mlp.getNbInput();
@@ -362,7 +335,13 @@ public class State01Start extends BasicGameState
         }
         else {
             for (int row = 0; row < N; row++) {
-                this.renderNeuron(g, x + LAYER_SPACE, y + LAYER_SPACE, numLayer, row);
+                String label = null;
+                if(labels != null){
+                    if(labels.length == N){
+                        label = labels[row];
+                    }
+                }
+                this.renderNeuron(g, x + LAYER_SPACE, y + LAYER_SPACE, numLayer, row, label);
             }
         }
     }
@@ -415,8 +394,12 @@ public class State01Start extends BasicGameState
 
         // Get MLP information and display neurons according to
         int L = this.mlp.getNbLayers();
+        String[] outLabels = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
         for(int i=L-1;i>=0;i--){
-            this.renderLayer(g, REF_X,MID_Y, i);
+            if(i != L-1){
+                outLabels = null;
+            }
+            this.renderLayer(g, REF_X,MID_Y, i, outLabels);
         }
 
         // Get mouse position
@@ -456,6 +439,11 @@ public class State01Start extends BasicGameState
         if(this.timeWatch > TIME_STEP){
             this.timeWatch -= TIME_STEP;
 
+            // Process Trainer
+            // Get data set value according to current time
+            int r = (int)((System.currentTimeMillis()/TIME_STEP)%this.trainer.getNbDataSet());
+            // Get input array according to data set number
+            double[] input = this.trainer.getInputDataSet(r);
 
 
             /*
@@ -480,15 +468,15 @@ public class State01Start extends BasicGameState
             //*/
 
 
-            //*
+            /*
             // Process LCD 7
-            int x = (int)(System.currentTimeMillis()/TIME_STEP)%10;
+            int x = (int)((System.currentTimeMillis()/TIME_STEP)%16);
             double[] input = LCD7.getDigitInput(x);
             //*/
 
 
             /*
-            // PROCESS XOR
+            // PROCESS TrainerXOR
             double[] input00 = {-1, -1};
             double[] input10 = { 1, -1};
             double[] input01 = {-1,  1};
