@@ -2,7 +2,7 @@ package fr.rphstudio.mlp;
 
 import fr.rphstudio.mlp.activation.ActivationFunction;
 import fr.rphstudio.mlp.cost.CostFunction;
-import fr.rphstudio.mlp.utils.BackPropUtils;
+import fr.rphstudio.mlp.utils.BackPropagation;
 import fr.rphstudio.mlp.utils.Console;
 import fr.rphstudio.mlp.structure.InputLayer;
 import fr.rphstudio.mlp.structure.NeuronLayer;
@@ -92,7 +92,7 @@ public class MLP {
         //--------------- Prepare DJA ----------------
         //--------------------------------------------
         // Compute DJA
-        double[]   DJA = BackPropUtils.computeDJA( curLayer.A, expectedOut, this.costFunction );
+        double[]   DJA = BackPropagation.computeDJA( curLayer.A, expectedOut, this.costFunction );
         double[]   DJZ = null;
         double[][] DJW = null;
         double[]   DJB = null;
@@ -105,13 +105,13 @@ public class MLP {
             // Get previous layer value
             prevLayer = this.neuronLayers.get(layerIndex - 1);
             // Compute DJZ
-            DJZ = BackPropUtils.computeDJZ(DJA, curLayer.Z, curLayer.af);
+            DJZ = BackPropagation.computeDJZ(DJA, curLayer.Z, curLayer.af);
             // Compute DJW
-            DJW = BackPropUtils.computeDJW(DJZ, prevLayer.A);
+            DJW = BackPropagation.computeDJW(DJZ, prevLayer.A);
             // Compute DJB
-            DJB = BackPropUtils.computeDJB(DJZ);
+            DJB = BackPropagation.computeDJB(DJZ);
             // Compute DJA for the previous layer (for the next round of backprop)
-            DJA = BackPropUtils.computeDJA(DJZ, curLayer.W);
+            DJA = BackPropagation.computeDJA(DJZ, curLayer.W);
             // Update Weights and BIAS of the last layer, according to DJW and DJb
             curLayer.updateWeightsAndBias(DJW, DJB, learningRate);
         }
@@ -125,13 +125,13 @@ public class MLP {
             curLayer  = this.neuronLayers.get(layerIndex);
             prevLayer = this.neuronLayers.get(layerIndex-1);
             // Compute DJZ
-            DJZ = BackPropUtils.computeDJZ( DJA, curLayer.Z, curLayer.af );
+            DJZ = BackPropagation.computeDJZ( DJA, curLayer.Z, curLayer.af );
             // Compute DJW
-            DJW = BackPropUtils.computeDJW( DJZ, prevLayer.A );
+            DJW = BackPropagation.computeDJW( DJZ, prevLayer.A );
             // Compute DJB
-            DJB = BackPropUtils.computeDJB( DJZ );
+            DJB = BackPropagation.computeDJB( DJZ );
             // Compute DJA for the previous layer (for the next round of backprop)
-            DJA = BackPropUtils.computeDJA( DJZ, curLayer.W);
+            DJA = BackPropagation.computeDJA( DJZ, curLayer.W);
             // Update Weights and BIAS of the current layer, according to DJW and DJB
             curLayer.updateWeightsAndBias(DJW, DJB, learningRate);
         }
@@ -142,11 +142,11 @@ public class MLP {
         // Update current layer and previous layer (input)
         curLayer  = this.neuronLayers.get(0);
         // Compute DJZ
-        DJZ = BackPropUtils.computeDJZ( DJA, curLayer.Z, curLayer.af );
+        DJZ = BackPropagation.computeDJZ( DJA, curLayer.Z, curLayer.af );
         // Compute DJW
-        DJW = BackPropUtils.computeDJW( DJZ, this.inputLayer.A );
+        DJW = BackPropagation.computeDJW( DJZ, this.inputLayer.A );
         // Compute DJb
-        DJB = BackPropUtils.computeDJB( DJZ );
+        DJB = BackPropagation.computeDJB( DJZ );
         // Update Weights and BIAS of the current layer, according to DJW and DJb
         curLayer.updateWeightsAndBias(DJW, DJB, learningRate);
 

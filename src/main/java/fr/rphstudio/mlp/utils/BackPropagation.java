@@ -5,7 +5,7 @@ import fr.rphstudio.mlp.cost.CostFunction;
 
 import java.util.InputMismatchException;
 
-public class BackPropUtils {
+public class BackPropagation {
 
     // Compute DJA using output and expected output (cost function)
     static public double[] computeDJA(double[] A, double[] E, CostFunction cf){

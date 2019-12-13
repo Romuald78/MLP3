@@ -13,7 +13,7 @@ import fr.rphstudio.mlp.cost.Quadratic;
 import fr.rphstudio.mlp.except.TrainingFailureException;
 import fr.rphstudio.mlp.training.ITraining;
 import fr.rphstudio.mlp.training.TrainerLCD7;
-import fr.rphstudio.mlp.utils.TrainingUtils;
+import fr.rphstudio.mlp.utils.Training;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -217,7 +217,7 @@ public class State01Start extends BasicGameState
 
         // train MLP
         try {
-            TrainingUtils.trainMLP(this.mlp, this.trainer);
+            Training.trainMLP(this.mlp, this.trainer);
         }
         catch(TrainingFailureException tfe){
             System.out.println("The MLP has not reached the requirements during training !");

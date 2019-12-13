@@ -4,10 +4,10 @@ import fr.rphstudio.mlp.MLP;
 import fr.rphstudio.mlp.except.TrainingFailureException;
 import fr.rphstudio.mlp.training.ITraining;
 
-public class TrainingUtils {
+public class Training {
 
     public static void trainMLP(MLP mlp, ITraining trainer) throws TrainingFailureException {
-        TrainingUtils.trainMLP(mlp,trainer,false);
+        Training.trainMLP(mlp,trainer,false);
     }
 
     public static void trainMLP(MLP mlp, ITraining trainer, boolean isMinErrorDisplayed) throws TrainingFailureException {
