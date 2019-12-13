@@ -2,7 +2,7 @@ package fr.rphstudio.mlp.training;
 
 import java.util.InputMismatchException;
 
-public class TrainerLCD7 implements ITraining{
+public class TrainerLCD7 implements ITraining {
 
     // Digit values
     private final static double[][] DATASET = {

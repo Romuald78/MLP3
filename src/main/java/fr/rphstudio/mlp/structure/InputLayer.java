@@ -1,4 +1,4 @@
-package fr.rphstudio.mlp;
+package fr.rphstudio.mlp.structure;
 
 import fr.rphstudio.mlp.utils.Console;
 

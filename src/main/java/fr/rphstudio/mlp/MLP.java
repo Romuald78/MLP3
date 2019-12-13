@@ -4,6 +4,8 @@ import fr.rphstudio.mlp.activation.ActivationFunction;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.utils.BackPropUtils;
 import fr.rphstudio.mlp.utils.Console;
+import fr.rphstudio.mlp.structure.InputLayer;
+import fr.rphstudio.mlp.structure.NeuronLayer;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -11,8 +13,8 @@ import java.util.List;
 
 public class MLP {
 
-    private fr.rphstudio.mlp.InputLayer inputLayer;
-    private List<fr.rphstudio.mlp.NeuronLayer> neuronLayers;
+    private InputLayer inputLayer;
+    private List<NeuronLayer> neuronLayers;
     private CostFunction      costFunction;
 
     /**
@@ -44,11 +46,11 @@ public class MLP {
         }
 
         // Ok create first layer
-        this.inputLayer = new fr.rphstudio.mlp.InputLayer(layerSizes[0]);
+        this.inputLayer = new InputLayer(layerSizes[0]);
         // Create all following
         this.neuronLayers = new ArrayList<>();
         for(int i=1;i<layerSizes.length;i++){
-            this.neuronLayers.add( new fr.rphstudio.mlp.NeuronLayer(layerSizes[i],layerSizes[i-1],afs[i-1]) );
+            this.neuronLayers.add( new NeuronLayer(layerSizes[i],layerSizes[i-1],afs[i-1]) );
         }
         // Store cost function
         this.costFunction = cf;
@@ -83,8 +85,8 @@ public class MLP {
         // Check if we have only one NEURON LAYER (+INPUT)
         // Get layer references (last and previous ones)
         int layerIndex = this.neuronLayers.size()-1;
-        fr.rphstudio.mlp.NeuronLayer curLayer  = this.neuronLayers.get(layerIndex);
-        fr.rphstudio.mlp.NeuronLayer prevLayer = null;
+        NeuronLayer curLayer  = this.neuronLayers.get(layerIndex);
+        NeuronLayer prevLayer = null;
 
         //--------------------------------------------
         //--------------- Prepare DJA ----------------

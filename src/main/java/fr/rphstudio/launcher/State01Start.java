@@ -5,16 +5,15 @@
  */
 package fr.rphstudio.launcher;
 
-import fr.rphstudio.misc.LCD7;
 import fr.rphstudio.mlp.MLP;
 import fr.rphstudio.mlp.activation.ActivationFunction;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
-import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
+import fr.rphstudio.mlp.except.TrainingFailureException;
 import fr.rphstudio.mlp.training.ITraining;
 import fr.rphstudio.mlp.training.TrainerLCD7;
-import fr.rphstudio.mlp.training.TrainerXOR;
+import fr.rphstudio.mlp.utils.TrainingUtils;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -53,7 +52,6 @@ public class State01Start extends BasicGameState
     private static final int REF_X = 150;
     private static final int MID_Y = 1080/2;
 
-
     private static final int CIRCLE_WIDTH  = 18;
     private static final int CIRCLE_HEIGHT = CIRCLE_WIDTH;
     private static final int DZ  = 25;
@@ -64,8 +62,6 @@ public class State01Start extends BasicGameState
     private static final int OUT_WIDTH  = 13;
     private static final int OUT_BOX    = 30;       // out box is the hit box used when mouse is over
     private static final int OUT_HEIGHT = OUT_WIDTH;
-
-
 
     private static final int LAYER_SPACE = 10;
     private static final int LAYER_WIDTH = 2*LAYER_SPACE + NEURON_WIDTH;
@@ -143,6 +139,11 @@ public class State01Start extends BasicGameState
 
 
 
+
+
+
+
+
     
     //------------------------------------------------
     // CONSTRUCTOR
@@ -213,46 +214,13 @@ public class State01Start extends BasicGameState
 
         // instanciate MLP
         this.mlp = new MLP( sizes, afs, this.cf );
-        this.mlp.scramble();
 
-        // Train with ITraining interface
-        double learningRate = this.trainer.getMaxLearningRate();
-        double err    = 10000;
-        double errMin = 10000;
-        int countOK  = 0;
-        int countBAD = 0;
-        while(     countOK  < this.trainer.getNbMaxCorrectDataSet()
-                && countBAD < this.trainer.getNbMaxBadDataSet()
-              ){
-            // get random data set number
-            int r = (int)(Math.random()*this.trainer.getNbDataSet());
-            // Get input and output arrays from random data set number
-            double[] input  = this.trainer.getInputDataSet(r);
-            double[] output = this.trainer.getOutputDataSet(r);
-            // Set inputs and process forward
-            this.mlp.setInputs(input);
-            this.mlp.processForward();
-            // Back propagation + retrieve error value
-            err = this.mlp.backPropagation(output, learningRate);
-
-            // Set learning rate according to error (in a specific range)
-            learningRate = err/10;
-            learningRate = Math.max(learningRate, this.trainer.getMinLearningRate());
-            learningRate = Math.min(learningRate, this.trainer.getMaxLearningRate());
-            // update minimal error
-            if(errMin > err){
-                errMin = err;
-                System.out.println(errMin);
-            }
-            // Update count
-            if( err < this.trainer.getAllowedError() ){
-                countOK ++;
-                countBAD = 0;
-            }
-            else{
-                countOK = 0;
-                countBAD++;
-            }
+        // train MLP
+        try {
+            TrainingUtils.trainMLP(this.mlp, this.trainer);
+        }
+        catch(TrainingFailureException tfe){
+            System.out.println("The MLP has not reached the requirements during training !");
         }
 
         // display final MLP configuration
@@ -377,8 +345,6 @@ public class State01Start extends BasicGameState
                 }
             }
         }
-
-
         return msg;
     }
 
@@ -439,76 +405,15 @@ public class State01Start extends BasicGameState
         if(this.timeWatch > TIME_STEP){
             this.timeWatch -= TIME_STEP;
 
-            // Process Trainer
             // Get data set value according to current time
             int r = (int)((System.currentTimeMillis()/TIME_STEP)%this.trainer.getNbDataSet());
+
             // Get input array according to data set number
             double[] input = this.trainer.getInputDataSet(r);
-
-
-            /*
-            // PROCESS SIMPLE 3 INPUTS
-            double[] input1 = {-1.00, -0.50};
-            double[] input2 = {-0.25,  0.25};
-            double[] input3 = { 0.75,  0.66};
-            double[] input = null;
-            int x = Math.abs((int)(System.currentTimeMillis()/TIME_STEP))%3;
-            if(x == 0){
-                input = input1;
-            }
-            else if(x == 1){
-                input = input2;
-            }
-            else if(x == 2){
-                input = input3;
-            }
-            else{
-                throw new Error("IMPOSSIBLE VALUE "+x);
-            }
-            //*/
-
-
-            /*
-            // Process LCD 7
-            int x = (int)((System.currentTimeMillis()/TIME_STEP)%16);
-            double[] input = LCD7.getDigitInput(x);
-            //*/
-
-
-            /*
-            // PROCESS TrainerXOR
-            double[] input00 = {-1, -1};
-            double[] input10 = { 1, -1};
-            double[] input01 = {-1,  1};
-            double[] input11 = { 1,  1};
-
-            double[] input =null;
-            int x = Math.abs((int)(System.currentTimeMillis()/TIME_STEP))%4;
-            if(x == 0){
-                input = input00;
-            }
-            else if(x == 1){
-                input = input10;
-            }
-            else if(x == 2){
-                input = input01;
-            }
-            else if(x == 3){
-                input = input11;
-            }
-            else{
-                throw new Error("IMPOSSIBLE VALUE "+x);
-            }
-            //*/
-
-
 
             // process forward
             this.mlp.setInputs(input);
             this.mlp.processForward();
-
-//            double out = this.mlp.getOutput( this.mlp.getNbLayers()-1, 0 );
-//            System.out.println("x="+x+"/y="+y+"/o="+out);
         }
     }
     
