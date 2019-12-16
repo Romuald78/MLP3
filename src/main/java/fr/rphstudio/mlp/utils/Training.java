@@ -42,9 +42,14 @@ public class Training {
             if(errMin > err){
                 errMin = err;
                 if(isMinErrorDisplayed) {
-                    System.out.println(errMin);
+                    System.out.println(">>> "+ errMin);
                 }
             }
+            /*
+            if(err > trainer.getAllowedError()){
+                System.out.println("!!! "+ err);
+            }
+            */
             // Update count
             if( err < trainer.getAllowedError() ){
                 countOK ++;
@@ -59,6 +64,8 @@ public class Training {
         if( countBAD >= trainer.getNbMaxBadDataSet() ){
             throw new TrainingFailureException();
         }
+        // display MLP
+        System.out.println(mlp);
     }
 
 }

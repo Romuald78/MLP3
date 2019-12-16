@@ -401,7 +401,6 @@ public class State01Start extends BasicGameState
         this.timeWatch += delta;
 
         // check when we have to perform operation
-
         if(this.timeWatch > TIME_STEP){
             this.timeWatch -= TIME_STEP;
 

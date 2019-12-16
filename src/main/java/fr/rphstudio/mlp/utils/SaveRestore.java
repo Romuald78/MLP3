@@ -34,7 +34,7 @@ public class SaveRestore {
     }
 
     public static MLP restore(){
-        SaveRestore.restore(DEFAULT_PATH)
+        return SaveRestore.restore(DEFAULT_PATH);
     }
 
     public static MLP restore(String path){
@@ -50,15 +50,19 @@ public class SaveRestore {
             fis.close();
             // display MLP object
             System.out.println(mlp);
+            return mlp;
         }
         catch (FileNotFoundException fnfe) {
             System.out.println("File not found");
+            return null;
         }
         catch (IOException ioe) {
             System.out.println("Error initializing stream");
+            return null;
         }
         catch (ClassNotFoundException cnfe) {
             cnfe.printStackTrace();
+            return null;
         }
     }
 
