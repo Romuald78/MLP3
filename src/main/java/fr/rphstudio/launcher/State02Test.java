@@ -12,6 +12,7 @@ import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
 import fr.rphstudio.mlp.except.TrainingFailureException;
 import fr.rphstudio.mlp.training.ITraining;
+import fr.rphstudio.mlp.training.ITraining.*;
 import fr.rphstudio.mlp.training.TrainerCamera2D;
 import fr.rphstudio.mlp.training.TrainerLCD7;
 import fr.rphstudio.mlp.utils.Training;
@@ -46,10 +47,12 @@ public class State02Test extends BasicGameState
     private GameContainer  container;
     private String         version;
 
-    private ITraining      trainer;
+    private ITraining trainer;
     private MLP            mlp;
 
-
+    private long TIME_STEP = 0;
+    private int dataSet = 0;
+    private TrainResult result = TrainResult.MAX_ITERATION;
 
 
     //------------------------------------------------
@@ -135,7 +138,7 @@ public class State02Test extends BasicGameState
         this.trainer = new TrainerCamera2D();
 
         // Create MLP data
-        int[] sizes = {2,16,16,1};
+        int[] sizes = {2,24,24,1};
         ActivationFunction af = new TanH();
         CostFunction       cf = new Quadratic();
         ActivationFunction[] afs = {af,af,af};
@@ -143,14 +146,8 @@ public class State02Test extends BasicGameState
         // instanciate MLP
         this.mlp = new MLP(sizes, afs, cf);
 
-        // train MLP
-        try {
-            Training.trainMLP(this.mlp, this.trainer, true);
-        }
-        catch(TrainingFailureException tfe){
-            System.out.println("The MLP has not reached the requirements during training !");
-        }
-
+        // Scramble weights and bias
+        this.mlp.scramble();
     }
 
 
@@ -158,8 +155,6 @@ public class State02Test extends BasicGameState
     //------------------------------------------------
     // RENDER METHOD
     //------------------------------------------------
-    private long TIME_STEP = 0;
-    private int dataSet = 0;
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException
     {
         // Fit Screen
@@ -173,7 +168,7 @@ public class State02Test extends BasicGameState
 
         // get values
         float W = (float)tr.totalW;
-        float H = (float)tr.totalW;
+        float H = (float)tr.totalH;
         float MID1 = (float)tr.mid1;
         float MID2 = (float)tr.mid2;
         float SCR1 = (float)tr.screenW1/2;
@@ -203,8 +198,8 @@ public class State02Test extends BasicGameState
         g.drawLine(refX+MID2+SCR2, refY+H+DY2, refX+MID2, refY+H+DY2+FOC2);
 
         // get random data set
-        if(this.TIME_STEP >= 1000){
-            this.TIME_STEP -= 1000;
+        if(this.TIME_STEP >= 1500){
+            this.TIME_STEP -= 1500;
             this.dataSet = (int)(Math.random()*W*H);
         }
 
@@ -213,8 +208,12 @@ public class State02Test extends BasicGameState
         float y = 0;
 
         // Get mouse position and trace lines to point from cameras
-        // x = this.container.getInput().getMouseX();
-        // y = this.container.getInput().getMouseY();
+        x = this.container.getInput().getMouseX()-refX;
+        y = H-(this.container.getInput().getMouseY()-refY);
+        x = Math.min(Math.max(0,x), W-1);
+        y = Math.min(Math.max(0,y), H-1);
+        // Compute dataset according to mouse position
+        this.dataSet = (int)( (y*W) + x );
 
         // Get Screen position (IN) and cannon angle (OUT) according to number of dataset
         double[] in  = tr.getInputDataSet(dataSet);
@@ -240,6 +239,11 @@ public class State02Test extends BasicGameState
         g.drawLine(refX+MID2, refY+H+DY2+FOC2, x, y);
         g.setColor(Color.yellow);
         g.fillOval(x-3,y-3,6,6);
+        // display error text
+        int err      = (int)(100*1000*Math.abs(angleReal-angleTheoric)/angleTheoric);
+        double error = ((double)err)/1000;
+        g.setColor(Color.yellow);
+        g.drawString(Double.toString(error)+"%", x-10,y-25);
 
         // draw required input from cameras
         g.setColor(Color.yellow);
@@ -247,14 +251,13 @@ public class State02Test extends BasicGameState
         g.drawOval(refX+MID2+(float)in[1]*SCR2-3, refY+H+DY2-3, 6, 6);
 
         // Draw cannon direction
-        g.setColor(Color.blue);
+        g.setColor(Color.cyan);
         g.fillOval(refX+W-DCX-3, refY+H+DCY-3, 6, 6);
         // Draw cannon fireline
-        g.setColor(Color.cyan);
-        g.drawLine( refX+W-DCX, refY+H+DCY, refX+W-DCX+1000*(float)Math.cos(angleTheoric), refY+H+DCY-1000*(float)Math.sin(angleTheoric) );
         g.setColor(Color.blue);
+        g.drawLine( refX+W-DCX, refY+H+DCY, refX+W-DCX+1000*(float)Math.cos(angleTheoric), refY+H+DCY-1000*(float)Math.sin(angleTheoric) );
+        g.setColor(Color.cyan);
         g.drawLine( refX+W-DCX, refY+H+DCY, refX+W-DCX+1000*(float)Math.cos(angleReal), refY+H+DCY-1000*(float)Math.sin(angleReal) );
-
     }
 
     
@@ -266,7 +269,10 @@ public class State02Test extends BasicGameState
         // Increase time step
         this.TIME_STEP += delta;
 
-
+        // train MLP (only if it has to)
+        if(this.result == TrainResult.MAX_ITERATION) {
+            this.result = Training.trainMLP(this.mlp, this.trainer, 25000);
+        }
     }
     
     

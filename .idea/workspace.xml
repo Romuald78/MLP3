@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dc11dc89-019b-4ce8-b98e-20312436f852" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State02Test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State01Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State01Start.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SaveRestore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SaveRestore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State02Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State02Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/Training.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/Training.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,13 +26,55 @@
       <file leaf-file-name="State02Test.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State02Test.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="244" column="31" lean-forward="true" selection-start-line="244" selection-start-column="31" selection-end-line="244" selection-end-column="31" />
+            <state relative-caret-position="70">
+              <caret line="140" column="30" selection-start-line="140" selection-start-column="30" selection-end-line="140" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#9017#9018#0" expanded="true" />
-                <element signature="e#9049#9050#0" expanded="true" />
+                <element signature="e#9841#9842#0" expanded="true" />
+                <element signature="e#9873#9874#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="State01Start.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State01Start.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="972">
+              <caret line="219" selection-start-line="219" selection-end-line="219" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainLauncher.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="90" column="88" selection-start-line="90" selection-start-column="88" selection-end-line="90" selection-end-column="88" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Training.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/Training.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="588">
+              <caret line="84" column="45" selection-start-line="84" selection-start-column="45" selection-end-line="84" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ITraining.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="7" column="103" selection-start-line="7" selection-start-column="103" selection-end-line="7" selection-end-column="103" />
             </state>
           </provider>
         </entry>
@@ -40,8 +82,26 @@
       <file leaf-file-name="TrainerCamera2D.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
-              <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+            <state relative-caret-position="243">
+              <caret line="56" column="22" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
+              <folding>
+                <element signature="e#1278#1279#0" expanded="true" />
+                <element signature="e#1304#1305#0" expanded="true" />
+                <element signature="e#1360#1361#0" expanded="true" />
+                <element signature="e#1386#1387#0" expanded="true" />
+                <element signature="e#1439#1440#0" expanded="true" />
+                <element signature="e#1470#1471#0" expanded="true" />
+                <element signature="e#1527#1528#0" expanded="true" />
+                <element signature="e#1553#1554#0" expanded="true" />
+                <element signature="e#1606#1607#0" expanded="true" />
+                <element signature="e#1637#1638#0" expanded="true" />
+                <element signature="e#1684#1685#0" expanded="true" />
+                <element signature="e#1708#1709#0" expanded="true" />
+                <element signature="e#1756#1757#0" expanded="true" />
+                <element signature="e#1780#1781#0" expanded="true" />
+                <element signature="e#1827#1828#0" expanded="true" />
+                <element signature="e#1888#1889#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,14 +118,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>learnin</find>
-      <find>train lc</find>
-      <find>train lcd</find>
-      <find>XOR</find>
       <find>manda</find>
       <find>mandal</find>
       <find>tanH</find>
-      <find>init(</find>
       <find>err +</find>
       <find>renderNeuron</find>
       <find>0.00</find>
@@ -82,12 +137,17 @@
       <find>count</find>
       <find>update(</find>
       <find>Input.</find>
-      <find>init()</find>
       <find>this.mlp</find>
-      <find>train</find>
       <find>0.1</find>
       <find>trainML</find>
+      <find>train</find>
+      <find>init()</find>
+      <find>update</find>
+      <find>init(</find>
+      <find>.trainML</find>
       <find>render</find>
+      <find>x,y</find>
+      <find>new MLP</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -104,7 +164,6 @@
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/NeuronLayer.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/misc/LCD7.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/XOR.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerLCD7.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerXOR.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainingTools.java" />
@@ -114,10 +173,12 @@
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/except/TrainingFailureException.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/TrainingUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SaveRestoreUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State01Start.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SaveRestore.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/test.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/Training.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State01Start.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State02Test.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java" />
       </list>
@@ -136,7 +197,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -237,10 +297,17 @@
               <item name="rphstudio" type="462c0819:PsiDirectoryNode" />
               <item name="rng" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="mandalaGen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MLP3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -358,11 +425,11 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24836601" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.24836601" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22334754" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22547974" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
@@ -401,13 +468,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/MLP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2992">
-          <caret line="99" column="27" selection-start-line="99" selection-start-column="27" selection-end-line="99" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/structure/NeuronLayer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2482">
@@ -664,13 +724,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/structure/InputLayer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -699,13 +752,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="135" column="5" lean-forward="true" selection-start-line="135" selection-start-column="5" selection-end-line="135" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/BackPropagation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
@@ -727,16 +773,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State01Start.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="224" lean-forward="true" selection-start-line="203" selection-end-line="224" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/MLP.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -744,10 +780,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="90" column="88" selection-start-line="90" selection-start-column="88" selection-end-line="90" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="7" column="103" selection-start-line="7" selection-start-column="103" selection-end-line="7" selection-end-column="103" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/Training.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1239">
-          <caret line="67" column="31" selection-start-line="67" selection-start-column="31" selection-end-line="67" selection-end-column="31" />
+        <state relative-caret-position="588">
+          <caret line="84" column="45" selection-start-line="84" selection-start-column="45" selection-end-line="84" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State01Start.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="972">
+          <caret line="219" selection-start-line="219" selection-end-line="219" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -756,20 +823,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State02Test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="244" column="31" lean-forward="true" selection-start-line="244" selection-start-column="31" selection-end-line="244" selection-end-column="31" />
+        <state relative-caret-position="70">
+          <caret line="140" column="30" selection-start-line="140" selection-start-column="30" selection-end-line="140" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9017#9018#0" expanded="true" />
-            <element signature="e#9049#9050#0" expanded="true" />
+            <element signature="e#9841#9842#0" expanded="true" />
+            <element signature="e#9873#9874#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+        <state relative-caret-position="243">
+          <caret line="56" column="22" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
+          <folding>
+            <element signature="e#1278#1279#0" expanded="true" />
+            <element signature="e#1304#1305#0" expanded="true" />
+            <element signature="e#1360#1361#0" expanded="true" />
+            <element signature="e#1386#1387#0" expanded="true" />
+            <element signature="e#1439#1440#0" expanded="true" />
+            <element signature="e#1470#1471#0" expanded="true" />
+            <element signature="e#1527#1528#0" expanded="true" />
+            <element signature="e#1553#1554#0" expanded="true" />
+            <element signature="e#1606#1607#0" expanded="true" />
+            <element signature="e#1637#1638#0" expanded="true" />
+            <element signature="e#1684#1685#0" expanded="true" />
+            <element signature="e#1708#1709#0" expanded="true" />
+            <element signature="e#1756#1757#0" expanded="true" />
+            <element signature="e#1780#1781#0" expanded="true" />
+            <element signature="e#1827#1828#0" expanded="true" />
+            <element signature="e#1888#1889#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

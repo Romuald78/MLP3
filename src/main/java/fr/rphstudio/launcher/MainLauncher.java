@@ -88,7 +88,7 @@ public class MainLauncher extends StateBasedGame
     {
         // Full game HD
         AppGameContainer appGame = new AppGameContainer(new MainLauncher());
-        appGame.setDisplayMode(appGame.getScreenWidth(), appGame.getScreenHeight(), false);
+        appGame.setDisplayMode(appGame.getScreenWidth(), appGame.getScreenHeight(), true);
         appGame.start();
     }  
 

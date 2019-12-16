@@ -3,26 +3,36 @@ package fr.rphstudio.mlp.utils;
 import fr.rphstudio.mlp.MLP;
 import fr.rphstudio.mlp.except.TrainingFailureException;
 import fr.rphstudio.mlp.training.ITraining;
+import fr.rphstudio.mlp.training.ITraining.*;
 
 public class Training {
 
-    public static void trainMLP(MLP mlp, ITraining trainer) throws TrainingFailureException {
-        Training.trainMLP(mlp,trainer,false);
+    public static TrainResult trainMLP(MLP mlp, ITraining trainer) {
+        return Training.trainMLP(mlp,trainer,false,1000000000);
     }
 
-    public static void trainMLP(MLP mlp, ITraining trainer, boolean isMinErrorDisplayed) throws TrainingFailureException {
-        // scramble the weights and bias
-        mlp.scramble();
+    public static TrainResult trainMLP(MLP mlp, ITraining trainer, boolean display) {
+        return Training.trainMLP(mlp,trainer,display,1000000000);
+    }
 
+    public static TrainResult trainMLP(MLP mlp, ITraining trainer, int maxT) {
+        return Training.trainMLP(mlp,trainer,false, maxT);
+    }
+
+    public static TrainResult trainMLP(MLP mlp, ITraining trainer, boolean isMinErrorDisplayed, int maxTrainings) {
         // Train with ITraining interface
         double learningRate = trainer.getMaxLearningRate();
         double err    = 10000;
         double errMin = 10000;
         int countOK  = 0;
         int countBAD = 0;
+        int nbTrains = 0;
         while(     countOK  < trainer.getNbMaxCorrectDataSet()
                 && countBAD < trainer.getNbMaxBadDataSet()
+                && nbTrains < maxTrainings
                 ){
+            // increase nbtrains
+            nbTrains++;
             // get random data set number
             int r = (int)(Math.random()*trainer.getNbDataSet());
             // Get input and output arrays from random data set number
@@ -60,12 +70,20 @@ public class Training {
                 countBAD++;
             }
         }
+        // display MLP
+        if(isMinErrorDisplayed) {
+            System.out.println(mlp);
+        }
         // Check if the training was a failure
         if( countBAD >= trainer.getNbMaxBadDataSet() ){
-            throw new TrainingFailureException();
+            return TrainResult.MAX_ERROR;
         }
-        // display MLP
-        System.out.println(mlp);
+        else if(countOK >= trainer.getNbMaxCorrectDataSet() ){
+            return TrainResult.LEVEL_OK;
+        }
+        else{
+            return TrainResult.MAX_ITERATION;
+        }
     }
 
 }

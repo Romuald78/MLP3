@@ -11,11 +11,12 @@ public class TrainerCamera2D implements ITraining {
     public final double screenW1 = 150;
     public final double screenW2 = 100;
     // total useful area size
-    public final int totalW   = 600;
+    public final int totalW   = 900;
     public final int totalH   = 600;
+
     // camera shifts (from the area borders)
     public final double du1      = 200;
-    public final double du2      = 100;
+    public final double du2      = 350;
 
     // camera screen middle positions
     public double mid1;
@@ -25,7 +26,7 @@ public class TrainerCamera2D implements ITraining {
     public double dY2;
 
     // cannon shift (from area right border)
-    public double dcx = 250;
+    public double dcx = 450;
     public double dcy = 75;
 
     // Constructor : place the two cameras randomly
@@ -58,7 +59,7 @@ public class TrainerCamera2D implements ITraining {
 
     @Override
     public int getNbMaxCorrectDataSet() {
-        return 100;
+        return 150;
     }
 
     @Override

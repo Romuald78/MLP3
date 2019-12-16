@@ -2,6 +2,12 @@ package fr.rphstudio.mlp.training;
 
 public interface ITraining {
 
+    public enum TrainResult {
+        LEVEL_OK,               // the network reached the requested level of compliance
+        MAX_ITERATION,          // the training has reached the maximum number of data set to process
+        MAX_ERROR,              // the network was always below the limit until a large amount of tests
+    }
+
     // Get learning rate range
     public double getMinLearningRate();
     public double getMaxLearningRate();

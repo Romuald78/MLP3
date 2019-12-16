@@ -216,12 +216,7 @@ public class State01Start extends BasicGameState
         this.mlp = new MLP( sizes, afs, this.cf );
 
         // train MLP
-        try {
-            Training.trainMLP(this.mlp, this.trainer);
-        }
-        catch(TrainingFailureException tfe){
-            System.out.println("The MLP has not reached the requirements during training !");
-        }
+        Training.trainMLP(this.mlp, this.trainer);
 
         // display final MLP configuration
         System.out.println(this.mlp);
