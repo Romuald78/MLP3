@@ -5,18 +5,21 @@ import java.util.InputMismatchException;
 public class TrainerCamera2D implements ITraining {
 
     // camera focals
-    public final double focal1   = 35;
-    public final double focal2   = 20;
+    public final double focal1   = 20;
+    public final double focal2   = 30;
     // camera screen width
-    public final double screenW1 = 150;
-    public final double screenW2 = 100;
+    public final double screenW1 = 90;
+    public final double screenW2 = 110;
     // total useful area size
-    public final int totalW   = 900;
-    public final int totalH   = 600;
+    public final int totalW   = 600;
+    public final int totalH   = 400;
+    public final int totalD   = 500;
 
     // camera shifts (from the area borders)
     public final double du1      = 200;
-    public final double du2      = 350;
+    public final double du2      = 200;
+    public final double dv1      = 150;
+    public final double dv2      = 250;
 
     // camera screen middle positions
     public double mid1;
@@ -26,8 +29,8 @@ public class TrainerCamera2D implements ITraining {
     public double dY2;
 
     // cannon shift (from area right border)
-    public double dcx = 450;
-    public double dcy = 75;
+    public double dcx = 300;
+    public double dcy = 150;
 
     // Constructor : place the two cameras randomly
     public TrainerCamera2D(){
@@ -35,8 +38,10 @@ public class TrainerCamera2D implements ITraining {
         this.mid1 = this.du1;
         this.mid2 = this.totalW - this.du2;
         // dY distances
-        this.dY1 = (2*this.focal1*(this.totalW-this.du1)/this.screenW1)-this.focal1;
-        this.dY2 = (2*this.focal2*(this.mid2           )/this.screenW2)-this.focal2;
+        this.dY1 = Math.max( (2*this.focal1*(this.dv1            )/this.screenW1)-this.focal1,
+                             (2*this.focal1*(this.totalW-this.du1)/this.screenW1)-this.focal1);
+        this.dY2 = Math.max( (2*this.focal2*(this.dv2            )/this.screenW2)-this.focal2,
+                             (2*this.focal2*(this.mid2           )/this.screenW2)-this.focal2);
     }
 
 
@@ -54,12 +59,12 @@ public class TrainerCamera2D implements ITraining {
 
     @Override
     public double getAllowedError() {
-        return 0.000001;
+        return 0.00001;
     }
 
     @Override
     public int getNbMaxCorrectDataSet() {
-        return 150;
+        return 100;
     }
 
     @Override
@@ -79,7 +84,7 @@ public class TrainerCamera2D implements ITraining {
 
     @Override
     public int getNbDataSet() {
-        return (int)(this.totalW*this.totalH + 0.999);
+        return (int)(this.totalW*this.totalD + 0.999);
     }
 
     public double[] getPositionUV(int num){
