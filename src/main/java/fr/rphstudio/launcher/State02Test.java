@@ -10,20 +10,15 @@ import fr.rphstudio.mlp.activation.ActivationFunction;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
-import fr.rphstudio.mlp.except.TrainingFailureException;
 import fr.rphstudio.mlp.training.ITraining;
 import fr.rphstudio.mlp.training.ITraining.*;
 import fr.rphstudio.mlp.training.TrainerCamera2D;
-import fr.rphstudio.mlp.training.TrainerLCD7;
 import fr.rphstudio.mlp.utils.Training;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class State02Test extends BasicGameState {
     //------------------------------------------------
@@ -120,7 +115,7 @@ public class State02Test extends BasicGameState {
         this.trainer = new TrainerCamera2D();
 
         // Create MLP data
-        int[] sizes = {2, 16, 16, 1};
+        int[] sizes = {4, 16, 16, 2};
         ActivationFunction af = new TanH();
         CostFunction cf = new Quadratic();
         ActivationFunction[] afs = {af, af, af};
@@ -149,8 +144,8 @@ public class State02Test extends BasicGameState {
         float H = (float) tr.totalH;
         float MID1 = (float) tr.mid1;
         float MID2 = (float) tr.mid2;
-        float V1 = (float) tr.dv1;
-        float V2 = (float) tr.dv2;
+        float V1 = (float) tr.dw1;
+        float V2 = (float) tr.dw2;
         float SCR1 = (float) tr.screenW1 / 2;
         float SCR2 = (float) tr.screenW2 / 2;
         float DY1 = (float) tr.dY1;
@@ -159,6 +154,7 @@ public class State02Test extends BasicGameState {
         float FOC2 = (float) tr.focal2;
         float DCX = (float) tr.dcx;
         float DCY = (float) tr.dcy;
+        float DCZ = (float) tr.dcz;
 
         // Set reference
         float refX = 25;
@@ -206,26 +202,22 @@ public class State02Test extends BasicGameState {
         g.drawLine(refX2 + V2 - SCR2, refY + D + DY2, refX2 + V2, refY + D + DY2 + FOC2);
         g.drawLine(refX2 + V2 + SCR2, refY + D + DY2, refX2 + V2, refY + D + DY2 + FOC2);
 
-
-        // get random data set
-        if (this.TIME_STEP >= 500) {
-            this.TIME_STEP -= 500;
-            this.dataSet = (int) (Math.random() * (2 * (W + D) - 4));
-        }
-
         // prepare x and y position
         float x = 0;
         float y = 0;
+        float z = 0;
         this.targetH = Math.min(Math.max(0, this.targetH), H - 1);
 
         // Get mouse position and trace lines to point from cameras
         x = this.container.getInput().getMouseX() - refX;
         y = D - (this.container.getInput().getMouseY() - refY);
+        z = this.targetH;
         x = Math.min(Math.max(0, x), W - 1);
         y = Math.min(Math.max(0, y), D - 1);
+        z = Math.min(Math.max(0, z), H - 1);
 
         // Compute dataset according to mouse position
-        this.dataSet = (int) ((y * W) + x);
+        this.dataSet = (int) ((z*W*D) + (y*W) + x);
 
         // Get Screen position (IN) and cannon angle (OUT) according to number of dataset
         double[] in = tr.getInputDataSet(dataSet);
@@ -236,20 +228,25 @@ public class State02Test extends BasicGameState {
         this.mlp.setInputs(in);
         this.mlp.processForward();
         outReal[0] = this.mlp.getOutput(3, 0);
+        outReal[1] = this.mlp.getOutput(3, 1);
 
         // Compute angle according to output
-        float angleTheoric = (float) (outTheoric[0] * Math.PI); // -pi to +pi
-        float angleReal = (float) (outReal[0] * Math.PI); // -pi to +pi
+        float alphaTheoric = (float) (outTheoric[0] * Math.PI); // -pi to +pi
+        float alphaReal    = (float) (outReal[0]    * Math.PI); // -pi to +pi
+        float betaTheoric  = (float) (outTheoric[1] * Math.PI); // -pi to +pi
+        float betaReal     = (float) (outReal[1]    * Math.PI); // -pi to +pi
 
         // get position according to dataSet
-        x = (float) (tr.getPositionUV(dataSet)[0]) + refX;
-        y = D - (float) (tr.getPositionUV(dataSet)[1]) + refY;
-        float z = this.targetH + refX2;
+        x = (float) (tr.getPositionUVW(dataSet)[0]);
+        y = (float) (tr.getPositionUVW(dataSet)[1]);
+        z = (float) (tr.getPositionUVW(dataSet)[2]);
+        x = x + refX;
+        y = (D- y) + refY;
+        z = z + refX2;
 
         // Compute error message
-        int err = (int) (100 * 1000 * Math.abs(angleReal - angleTheoric) / Math.PI);
+        int err = (int)(100*1000*(Math.abs(alphaReal-alphaTheoric)+Math.abs(betaReal-betaTheoric))/Math.PI);
         double error = ((double) err) / 1000;
-
 
         //----------------------------------------
         // TOP VIEW (W/D)
@@ -268,16 +265,16 @@ public class State02Test extends BasicGameState {
         // draw required input from cameras
         g.setColor(Color.yellow);
         g.drawOval(refX + MID1 + (float) in[0] * SCR1 - 3, refY + D + DY1 - 3, 6, 6);
-        g.drawOval(refX + MID2 + (float) in[1] * SCR2 - 3, refY + D + DY2 - 3, 6, 6);
+        g.drawOval(refX + MID2 + (float) in[2] * SCR2 - 3, refY + D + DY2 - 3, 6, 6);
 
         // Draw cannon direction
         g.setColor(Color.cyan);
         g.fillOval(refX + W - DCX - 3, refY + D + DCY - 3, 6, 6);
         // Draw cannon fireline
         g.setColor(Color.blue);
-        g.drawLine(refX + W - DCX, refY + D + DCY, refX + W - DCX + 2000 * (float) Math.cos(angleTheoric), refY + D + DCY - 2000 * (float) Math.sin(angleTheoric));
+        g.drawLine(refX + W - DCX, refY + D + DCY, refX + W - DCX + 2000 * (float) Math.cos(alphaTheoric), refY + D + DCY - 2000 * (float) Math.sin(alphaTheoric));
         g.setColor(Color.cyan);
-        g.drawLine(refX + W - DCX, refY + D + DCY, refX + W - DCX + 2000 * (float) Math.cos(angleReal), refY + D + DCY - 2000 * (float) Math.sin(angleReal));
+        g.drawLine(refX + W - DCX, refY + D + DCY, refX + W - DCX + 2000 * (float) Math.cos(alphaReal), refY + D + DCY - 2000 * (float) Math.sin(alphaReal));
 
         //----------------------------------------
         // SIDE VIEW (W/D)
@@ -290,6 +287,33 @@ public class State02Test extends BasicGameState {
         g.setColor(Color.yellow);
         g.fillOval(z - 3, y - 3, 6, 6);
 
+        // draw required input from cameras
+        g.setColor(Color.yellow);
+        g.drawOval(refX2 + V1 + (float) in[1] * SCR1 - 3, refY + D + DY1 - 3, 6, 6);
+        g.drawOval(refX2 + V2 + (float) in[3] * SCR2 - 3, refY + D + DY2 - 3, 6, 6);
+
+        // Draw cannon direction
+        g.setColor(Color.cyan);
+        g.fillOval(refX2 + DCZ - 3, refY + D +DCY - 3, 6, 6);
+        // Draw cannon fireline
+        g.setColor(Color.blue);
+        g.drawLine(refX2 + DCZ, refY + D + DCY, refX2 + DCZ + 2000 * (float) Math.cos(betaTheoric), refY + D + DCY - 2000 * (float) Math.sin(betaTheoric));
+        g.setColor(Color.cyan);
+        g.drawLine(refX2 + DCZ, refY + D + DCY, refX2 + DCZ + 2000 * (float) Math.cos(betaReal), refY + D + DCY - 2000 * (float) Math.sin(betaReal));
+
+        //----------------------------------------
+        // ADDITIONAL DRAWINGS
+        //----------------------------------------
+        // draw line between both targets
+        g.setColor(Color.darkGray);
+        float step  = 5;
+        float posX  = x;
+        do{
+            float posX2 = Math.min(posX+step,z);
+            posX = Math.min(posX,z);
+            g.drawLine(posX,y,posX2,y);
+            posX += 2*step;
+        } while(posX<z);
 
     }
 
@@ -301,10 +325,10 @@ public class State02Test extends BasicGameState {
 
         // move targetH
         if(this.movingDown){
-            this.targetH -= 2.5f;
+            this.targetH -= 10;
         }
         if(this.movingUp){
-            this.targetH += 2.5f;
+            this.targetH += 10;
         }
 
         // Increase time step
@@ -312,7 +336,7 @@ public class State02Test extends BasicGameState {
 
         // train MLP (only if it has to)
         if (this.result == TrainResult.MAX_ITERATION) {
-            this.result = Training.trainMLP(this.mlp, this.trainer, false, 10000);
+            this.result = Training.trainMLP(this.mlp, this.trainer, false, 20000);
             // display if finished correctly
             if (this.result == TrainResult.LEVEL_OK) {
                 System.out.println(this.mlp);
