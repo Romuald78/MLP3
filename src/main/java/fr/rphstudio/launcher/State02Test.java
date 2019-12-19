@@ -13,6 +13,7 @@ import fr.rphstudio.mlp.cost.Quadratic;
 import fr.rphstudio.mlp.training.ITraining;
 import fr.rphstudio.mlp.training.ITraining.*;
 import fr.rphstudio.mlp.training.TrainerCamera2D;
+import fr.rphstudio.mlp.utils.SlickDisplayMLP;
 import fr.rphstudio.mlp.utils.Training;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
@@ -314,6 +315,10 @@ public class State02Test extends BasicGameState {
             g.drawLine(posX,y,posX2,y);
             posX += 2*step;
         } while(posX<z);
+
+        // Render the MLP structure
+        SlickDisplayMLP.displayMLP(this.mlp, g, this.trainer, 1150, 750);
+
 
     }
 

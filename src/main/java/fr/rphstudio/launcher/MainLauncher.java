@@ -132,6 +132,7 @@ public class MainLauncher extends StateBasedGame
         Log.setVerbose(false);
 
         // Add game state controller
+//        this.addState( new State01Start() );
         this.addState( new State02Test() );
     }
 

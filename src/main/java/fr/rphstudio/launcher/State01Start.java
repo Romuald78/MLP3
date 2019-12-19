@@ -12,7 +12,10 @@ import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
 import fr.rphstudio.mlp.except.TrainingFailureException;
 import fr.rphstudio.mlp.training.ITraining;
+import fr.rphstudio.mlp.training.TrainerCamera2D;
 import fr.rphstudio.mlp.training.TrainerLCD7;
+import fr.rphstudio.mlp.training.TrainerXOR;
+import fr.rphstudio.mlp.utils.SlickDisplayMLP;
 import fr.rphstudio.mlp.utils.Training;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
@@ -52,6 +55,8 @@ public class State01Start extends BasicGameState
     private static final int REF_X = 150;
     private static final int MID_Y = 1080/2;
 
+    /*
+
     private static final int CIRCLE_WIDTH  = 18;
     private static final int CIRCLE_HEIGHT = CIRCLE_WIDTH;
     private static final int DZ  = 25;
@@ -66,7 +71,7 @@ public class State01Start extends BasicGameState
     private static final int LAYER_SPACE = 10;
     private static final int LAYER_WIDTH = 2*LAYER_SPACE + NEURON_WIDTH;
     private static final int LAYER_INTER = 150;
-
+    //*/
 
     //------------------------------------------------
     // PRIVATE PROPERTIES
@@ -170,6 +175,16 @@ public class State01Start extends BasicGameState
         // Init cost function
         this.cf = new Quadratic();
 
+        /* ========== SCARECAT ==========
+        // Create trainer
+        this.trainer = new TrainerCamera2D();
+        // Create layers (size + activation functions)
+        this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
+        this.layers.add( new LayerStruct(16, new TanH() ) );
+        this.layers.add( new LayerStruct(16, new TanH() ) );
+        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        //*/
+
         //* ========== LCD 7 ==========
         // Create trainer
         this.trainer = new TrainerLCD7();
@@ -215,135 +230,15 @@ public class State01Start extends BasicGameState
         // instanciate MLP
         this.mlp = new MLP( sizes, afs, this.cf );
 
+        // Scramble before train
+        this.mlp.scramble();
+
         // train MLP
         Training.trainMLP(this.mlp, this.trainer);
 
         // display final MLP configuration
         System.out.println(this.mlp);
     }
-
-    private void renderNeuron( Graphics g, float x, float y, int numLayer, int numNeuron, String label ){
-        // update ref position
-        y += numNeuron*(NEURON_HEIGHT+LAYER_SPACE);
-
-        // Get number of output from previous layer
-        int N = this.mlp.getNbNeurons(numLayer-1);
-        // Draw all weights
-        for(int i=0;i<N;i++){
-            // Compute x and y ref from previous
-            float hPrev = LAYER_SPACE+N*(NEURON_HEIGHT+LAYER_SPACE);
-            float yPrev = MID_Y - (hPrev/2) + i*(NEURON_HEIGHT+LAYER_SPACE)+(NEURON_HEIGHT/2)+LAYER_SPACE;
-            float xPrev = x-LAYER_INTER-(2*LAYER_SPACE);
-            int v = (int)(128*this.mlp.getWeight(numLayer, numNeuron, i))+127;
-            Color clr = new Color(v,v,v,255);
-            g.setColor(clr);
-            g.drawLine(x+DZ,y+(NEURON_HEIGHT/2),xPrev,yPrev);
-        }
-        // Draw neuron border
-        g.setColor(Color.yellow);
-        g.drawRect(x,y,NEURON_WIDTH,NEURON_HEIGHT);
-        // Draw Z circle
-        g.fillOval(x+DZ-(CIRCLE_WIDTH/2),y+(NEURON_HEIGHT-CIRCLE_HEIGHT)/2,CIRCLE_WIDTH,CIRCLE_HEIGHT);
-        // Draw AF circle
-        g.fillOval(x+DZ+DAF-(CIRCLE_WIDTH/2),y+(NEURON_HEIGHT-CIRCLE_HEIGHT)/2,CIRCLE_WIDTH,CIRCLE_HEIGHT);
-        // Draw OUT circle
-        int v = (int)(128*this.mlp.getOutput(numLayer,numNeuron))+127;
-        Color clr = new Color(v,v,0);
-        g.setColor(clr);
-        g.fillOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
-        g.setColor(Color.yellow);
-        g.drawOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
-        // draw label
-        if(label != null){
-            g.drawString(label, x+DZ+DAF+DAF + 15, y+(NEURON_HEIGHT-OUT_HEIGHT)/2 - 4 );
-            g.drawString(label, x+DZ+DAF+DAF + 15, y+(NEURON_HEIGHT-OUT_HEIGHT)/2 - 4 );
-        }
-    }
-
-    private void renderInput( Graphics g, float x, float y, int numInput ){
-        // update ref position
-        y += numInput*(NEURON_HEIGHT+LAYER_SPACE);
-        g.setColor(Color.blue);
-        g.drawRect(x,y,NEURON_WIDTH,NEURON_HEIGHT);
-        // Draw OUT circle
-        int v = (int)(128*this.mlp.getOutput(0,numInput))+127;
-        Color clr = new Color(0,v,v);
-        g.setColor(clr);
-        g.fillOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
-        g.setColor(Color.blue);
-        g.drawOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
-    }
-
-    private void renderLayer(Graphics g, float xRef, float yMid, int numLayer, String[] labels){
-        int N = 0;
-        if(numLayer == 0){
-            N = this.mlp.getNbInput();
-        }
-        else {
-            N = this.mlp.getNbNeurons(numLayer);
-        }
-        // prepare position and dimensions
-        float w = LAYER_WIDTH;
-        float h = LAYER_SPACE+N*(NEURON_HEIGHT+LAYER_SPACE);
-        float y = yMid - (h/2);
-        float x = xRef + numLayer*(LAYER_WIDTH+LAYER_INTER);
-        // display layer
-        g.setColor(Color.cyan);
-        g.drawRect(x, y, w, h);
-        // Display each neuron or input
-        if(numLayer==0){
-            for (int row = 0; row < N; row++) {
-                this.renderInput(g, x + LAYER_SPACE + numLayer * (LAYER_WIDTH + LAYER_INTER), y + LAYER_SPACE, row);
-            }
-        }
-        else {
-            for (int row = 0; row < N; row++) {
-                String label = null;
-                if(labels != null){
-                    if(labels.length == N){
-                        label = labels[row];
-                    }
-                }
-                this.renderNeuron(g, x + LAYER_SPACE, y + LAYER_SPACE, numLayer, row, label);
-            }
-        }
-    }
-
-    private String getMessage(float x, float y){
-        String msg = null;
-        // check each X output
-        for(int layerNum=0;layerNum<this.mlp.getNbLayers();layerNum++){
-            // Get number of neurons for this layer
-            int N = this.mlp.getNbNeurons(layerNum);
-            // Get y ref for this layer
-            float h    = LAYER_SPACE+N*(NEURON_HEIGHT+LAYER_SPACE);
-            float midY = MID_Y - (h/2);
-            // convert i to outX (output position of a layer)
-            double outX = REF_X+(layerNum*(LAYER_WIDTH+LAYER_INTER))+LAYER_WIDTH-LAYER_SPACE;
-            // Check each neuron in the current layer
-            for(int neuronNum=0;neuronNum<N;neuronNum++){
-                // convert j to outY (output position of the current neuron of the current layer)
-                double outY = midY+(neuronNum*(NEURON_HEIGHT+LAYER_SPACE))+(NEURON_HEIGHT/2)+LAYER_SPACE;
-                //this.gameObject.getContainer().getGraphics().setColor(Color.green);
-                //this.gameObject.getContainer().getGraphics().drawRect((float)(outX)-OUT_BOX/2.0f,(float)(outY)-OUT_BOX/2.0f,OUT_BOX,OUT_BOX);
-                if( x>= (float)(outX)-OUT_BOX/2 && x<= (float)(outX)+OUT_BOX/2 && y>= (float)(outY)-OUT_BOX/2 && y<= (float)(outY)+OUT_BOX/2 ){
-                    msg  = String.format("NEURON %d-%d\n", layerNum, neuronNum);
-                    msg += String.format("A=%.6f\n", this.mlp.getOutput(layerNum,neuronNum));
-                    if(this.displayHelp){
-                        msg += String.format("Z=%.6f\n", this.mlp.getNetwork(layerNum,neuronNum));
-                        if(layerNum>0){
-                            for(int weightNum=0;weightNum<this.mlp.getNbNeurons(layerNum-1);weightNum++){
-                                msg += String.format("W%d=%.6f\n",weightNum, this.mlp.getWeight(layerNum,neuronNum,weightNum));
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return msg;
-    }
-
-
 
     //------------------------------------------------
     // RENDER METHOD
@@ -354,20 +249,13 @@ public class State01Start extends BasicGameState
         MainLauncher.fitScreen(container, g);
 
         // Get MLP information and display neurons according to
-        int L = this.mlp.getNbLayers();
-        String[] outLabels = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
-        for(int i=L-1;i>=0;i--){
-            if(i != L-1){
-                outLabels = null;
-            }
-            this.renderLayer(g, REF_X,MID_Y, i, outLabels);
-        }
+        SlickDisplayMLP.displayMLP(this.mlp,g,this.trainer,REF_X,MID_Y);
 
         // Get mouse position
         float x = container.getInput().getMouseX();
         float y = container.getInput().getMouseY();
         // Display message according to position
-        String msg = this.getMessage(x,y);
+        String msg = SlickDisplayMLP.getMessage(this.mlp, x,y,this.displayHelp, REF_X, MID_Y);
         if(msg != null){
             int h  = 50;
             int dy = -55;

@@ -11,15 +11,15 @@ public class TrainerCamera2D implements ITraining {
     public final double screenW1 = 90;
     public final double screenW2 = 150;
     // total useful area size
-    public final int totalW   = 1000;
-    public final int totalH   = 700;
-    public final int totalD   = 700;
+    public final int totalW   = 600;
+    public final int totalH   = 400;
+    public final int totalD   = 400;
 
     // camera shifts (from the area borders)
-    public final double du1      = 350;
-    public final double du2      = 350;
-    public final double dw1      = 200;
-    public final double dw2      = 500;
+    public final double du1      = 100;
+    public final double du2      = 100;
+    public final double dw1      = 100;
+    public final double dw2      = 300;
 
     // camera screen middle positions
     public double mid1;
@@ -29,9 +29,9 @@ public class TrainerCamera2D implements ITraining {
     public double dY2;
 
     // cannon shift (from area right border)
-    public double dcx = 500;
+    public double dcx = 300;
     public double dcy = 150;
-    public double dcz = 350;
+    public double dcz = 200;
 
     // Constructor : place the two cameras randomly
     public TrainerCamera2D(){
@@ -148,6 +148,12 @@ public class TrainerCamera2D implements ITraining {
         double v = uvw[1];
         double w = uvw[2];
         return this.getOutputDataSet(u,v,w);
+    }
+
+    @Override
+    public String[] getOutputLabels() {
+        String[] out = { "alpha", "beta" };
+        return out;
     }
 
     public double[] getOutputDataSet(double u, double v, double w){

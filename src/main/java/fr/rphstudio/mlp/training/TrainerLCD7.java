@@ -82,4 +82,10 @@ public class TrainerLCD7 implements ITraining {
         return out;
     }
 
+    @Override
+    public String[] getOutputLabels() {
+        String[] outLabels = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+        return outLabels;
+    }
+
 }
