@@ -21,7 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import java.io.*;
 
-public class State02Test extends BasicGameState {
+public class MainScareCat extends BasicGameState {
     //------------------------------------------------
     // PUBLIC CONSTANTS
     //------------------------------------------------
@@ -92,7 +92,7 @@ public class State02Test extends BasicGameState {
     //------------------------------------------------
     // CONSTRUCTOR
     //------------------------------------------------
-    public State02Test() {
+    public MainScareCat() {
     }
 
 

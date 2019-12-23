@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class State01Start extends BasicGameState
+public class MainTestMLP extends BasicGameState
 {
     //------------------------------------------------
     // PRIVATE STRUCTURES
@@ -153,7 +153,7 @@ public class State01Start extends BasicGameState
     //------------------------------------------------
     // CONSTRUCTOR
     //------------------------------------------------
-    public State01Start()
+    public MainTestMLP()
     {
     }
     
@@ -185,7 +185,7 @@ public class State01Start extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
         //*/
 
-        //* ========== LCD 7 ==========
+        /* ========== LCD 7 ==========
         // Create trainer
         this.trainer = new TrainerLCD7();
         // Create layers (size + activation functions)
@@ -194,7 +194,7 @@ public class State01Start extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
         //*/
 
-        /* ========== XOR ==========
+        //* ========== XOR ==========
         // Create trainer
         this.trainer = new TrainerXOR();
         // Create layers (size + activation functions)

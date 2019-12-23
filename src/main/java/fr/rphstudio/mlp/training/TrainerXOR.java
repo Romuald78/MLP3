@@ -24,7 +24,7 @@ public class TrainerXOR implements ITraining {
 
     @Override
     public double getAllowedError() {
-        return 0.0001;
+        return 0.001;
     }
 
     @Override

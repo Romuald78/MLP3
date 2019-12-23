@@ -3,7 +3,6 @@
 //--------------------------------------------------------------------
 package fr.rphstudio.launcher;
 
-import fr.rphstudio.launcher.State01Start;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -66,6 +65,8 @@ public class MainLauncher extends StateBasedGame
      */
     public static void fitScreen(GameContainer container, Graphics g)
     {
+        // Clear frame
+        g.clear();
         // rendering is done : now try to scale it to fit the full screen
         float sx  = ((AppGameContainer)container).getScreenWidth()/(float)WIDTH;
         float sy  = ((AppGameContainer)container).getScreenHeight()/(float)HEIGHT;
@@ -132,8 +133,9 @@ public class MainLauncher extends StateBasedGame
         Log.setVerbose(false);
 
         // Add game state controller
-//        this.addState( new State01Start() );
-        this.addState( new State02Test() );
+//      this.addState( new MainTestMLP() );
+        this.addState( new MainScareCat() );
+//      this.addState( new MainTestOCR() );
     }
 
     

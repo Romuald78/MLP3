@@ -13,7 +13,7 @@ public class TrainerCamera2D implements ITraining {
     // total useful area size
     public final int totalW   = 600;
     public final int totalH   = 400;
-    public final int totalD   = 400;
+    public final int totalD   = 700;
 
     // camera shifts (from the area borders)
     public final double du1      = 100;

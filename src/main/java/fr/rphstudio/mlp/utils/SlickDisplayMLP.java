@@ -10,18 +10,18 @@ public class SlickDisplayMLP {
     //------------------------------------------------
     // PRIVATE CONSTANTS
     //------------------------------------------------
-    private static final int CIRCLE_WIDTH  = 15;
+    private static final int CIRCLE_WIDTH  = 7;
     private static final int CIRCLE_HEIGHT = CIRCLE_WIDTH;
-    private static final int DZ  = 20;
-    private static final int DAF = 20;
+    private static final int DZ  = 8;
+    private static final int DAF = 8;
     private static final int NEURON_WIDTH  = DZ+DAF*2;
     private static final int NEURON_HEIGHT = NEURON_WIDTH/2;
 
     private static final int OUT_WIDTH  = 10;
-    private static final int OUT_BOX    = 30;       // out box is the hit box used when mouse is over
+    private static final int OUT_BOX    = 20;       // out box is the hit box used when mouse is over
     private static final int OUT_HEIGHT = OUT_WIDTH;
 
-    private static final int LAYER_SPACE = 7;
+    private static final int LAYER_SPACE = 4;
     private static final int LAYER_WIDTH = 2*LAYER_SPACE + NEURON_WIDTH;
     private static final int LAYER_INTER = 125;
 
@@ -59,6 +59,7 @@ public class SlickDisplayMLP {
         g.drawOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
         // draw label
         if(label != null){
+            g.setColor(Color.yellow);
             g.drawString(label, x+DZ+DAF+DAF + 15, y+(NEURON_HEIGHT-OUT_HEIGHT)/2 - 4 );
             g.drawString(label, x+DZ+DAF+DAF + 15, y+(NEURON_HEIGHT-OUT_HEIGHT)/2 - 4 );
         }
@@ -93,8 +94,8 @@ public class SlickDisplayMLP {
         float y = yMid - (h/2);
         float x = xRef + numLayer*(LAYER_WIDTH+LAYER_INTER);
         // display layer
-        g.setColor(Color.cyan);
-        g.drawRect(x, y, w, h);
+        //g.setColor(Color.cyan);
+        //g.drawRect(x, y, w, h);
         // Display each neuron or input
         if(numLayer==0){
             for (int row = 0; row < N; row++) {
