@@ -3,13 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="dc11dc89-019b-4ce8-b98e-20312436f852" name="Default" comment="">
       <change afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerOCR.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainScareCat2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCameraPlanes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State01Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestMLP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State02Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainScareCat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainScareCat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainScareCat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestMLP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestMLP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/MLP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/MLP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCameraBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerLCD7.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerLCD7.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerOCR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerOCR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerXOR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerXOR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java" afterDir="false" />
     </list>
@@ -25,54 +30,7 @@
     <SUITE FILE_PATH="coverage/mandalaGen$Just_Run.ic" NAME="Just Run Coverage Results" MODIFIED="1574977303248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainLauncher.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="135" column="3" selection-start-line="135" selection-start-column="3" selection-end-line="135" selection-end-column="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TrainerXOR.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerXOR.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
-              <folding>
-                <element signature="e#476#477#0" expanded="true" />
-                <element signature="e#502#503#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TrainerOCR.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerOCR.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainTestOCR.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="114" column="55" selection-start-line="114" selection-start-column="55" selection-end-line="114" selection-end-column="55" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -84,12 +42,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>update</find>
-      <find>release</find>
-      <find>pressed</find>
-      <find>targetH =</find>
-      <find>z =</find>
-      <find>y =</find>
       <find>dcx</find>
       <find>dataset</find>
       <find>targetH</find>
@@ -111,9 +63,15 @@
       <find>drawImag</find>
       <find>draw weig</find>
       <find>getCharF</find>
-      <find>render</find>
       <find>//*</find>
       <find>render(</find>
+      <find>back</find>
+      <find>render</find>
+      <find>dataSet</find>
+      <find>this.dataSet</find>
+      <find>LCD</find>
+      <find>weigh</find>
+      <find>drawli</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -126,7 +84,6 @@
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/ann/MLP.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/cost/Difference.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/TanH.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/MLP.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/NeuronLayer.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/misc/LCD7.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/XOR.java" />
@@ -140,16 +97,20 @@
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SaveRestore.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/test.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/Training.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerLCD7.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State01Start.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/State02Test.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainScareCat.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainScareCat2.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCameraPlanes.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCameraBox.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerOCR.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerXOR.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerLCD7.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/MLP.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestMLP.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java" />
       </list>
@@ -217,15 +178,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="rphstudio" type="462c0819:PsiDirectoryNode" />
-              <item name="misc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mandalaGen" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MLP3" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="rphstudio" type="462c0819:PsiDirectoryNode" />
               <item name="mlp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -236,7 +188,7 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="rphstudio" type="462c0819:PsiDirectoryNode" />
               <item name="mlp" type="462c0819:PsiDirectoryNode" />
-              <item name="activation" type="462c0819:PsiDirectoryNode" />
+              <item name="structure" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mandalaGen" type="b2602c69:ProjectViewProjectNode" />
@@ -277,8 +229,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -290,8 +242,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="fr.rphstudio.mlp.training" />
       <recent name="fr.rphstudio.launcher" />
+      <recent name="fr.rphstudio.mlp.training" />
       <recent name="fr.rphstudio.mlp.activation" />
       <recent name="fr.rphstudio.mlp.cost" />
     </key>
@@ -385,7 +337,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -396,11 +347,11 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.50217867" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32135075" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20415778" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21268657" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
@@ -419,7 +370,7 @@
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24836601" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32897604" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20202559" />
@@ -427,7 +378,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24836601" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -468,17 +419,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/cost/Difference.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestMLP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8975">
-          <caret line="359" column="36" selection-start-line="359" selection-start-column="36" selection-end-line="359" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/MLP.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4150">
@@ -601,34 +541,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/cost/Difference.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/Sigmoid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/TanH.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="3" column="47" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/ActivationFunction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/SoftMax.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MLP_v3.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
@@ -657,31 +569,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/cost/Quadratic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="13" column="23" selection-start-line="13" selection-start-column="15" selection-end-line="13" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/misc/LCD7.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="17" lean-forward="true" selection-start-line="4" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/structure/InputLayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/structure/NeuronLayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -706,13 +597,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/MLP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/test.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/Training.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -721,25 +605,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerLCD7.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="837">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="e#994#995#0" expanded="true" />
-            <element signature="e#1020#1021#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/slick2d/slick2d-core/1.0.0/slick2d-core-1.0.0-sources.jar!/org/newdawn/slick/GameContainer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="774" column="16" selection-start-line="774" selection-start-column="16" selection-end-line="774" selection-end-column="16" />
-          <folding>
-            <element signature="e#20899#20900#0" expanded="true" />
-            <element signature="e#20920#20921#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -757,69 +626,141 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/Sigmoid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="23" column="15" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
+        <state relative-caret-position="270">
+          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/TanH.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="3" column="47" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/cost/Quadratic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="13" column="23" selection-start-line="13" selection-start-column="15" selection-end-line="13" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/ActivationFunction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="28" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/SoftMax.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/BackPropagation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="479">
+          <caret line="94" column="15" selection-start-line="94" selection-start-column="12" selection-end-line="94" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/structure/InputLayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="78" column="8" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="8" />
+        <state relative-caret-position="108">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCamera2D.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/ITraining.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-540">
-          <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainScareCat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="343" column="77" selection-start-line="343" selection-start-column="77" selection-end-line="343" selection-end-column="77" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="413">
+          <caret line="34" column="1" lean-forward="true" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerXOR.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+        <state relative-caret-position="324">
+          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCameraBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="157" lean-forward="true" selection-start-line="157" selection-end-line="157" />
           <folding>
-            <element signature="e#476#477#0" expanded="true" />
-            <element signature="e#502#503#0" expanded="true" />
+            <element signature="e#2163#2164#0" expanded="true" />
+            <element signature="e#2236#2237#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestMLP.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainScareCat2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="215" selection-start-line="215" selection-end-line="215" />
+        <state relative-caret-position="757">
+          <caret line="132" column="34" selection-start-line="132" selection-start-column="34" selection-end-line="132" selection-end-column="34" />
+          <folding>
+            <element signature="e#14544#14545#0" expanded="true" />
+            <element signature="e#14576#14577#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainScareCat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="243" selection-start-line="243" selection-end-line="245" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerLCD7.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="114" column="55" selection-start-line="114" selection-start-column="55" selection-end-line="114" selection-end-column="55" />
+        <state relative-caret-position="359">
+          <caret line="86" column="47" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
+          <folding>
+            <element signature="e#994#995#0" expanded="true" />
+            <element signature="e#1020#1021#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/structure/NeuronLayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-27">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/MLP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="521">
+          <caret line="220" lean-forward="true" selection-start-line="220" selection-end-line="220" />
+          <folding>
+            <element signature="e#2315#2316#0" expanded="true" />
+            <element signature="e#2359#2360#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="75" column="22" selection-start-line="75" selection-start-column="22" selection-end-line="75" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestMLP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="194" column="8" lean-forward="true" selection-start-line="194" selection-start-column="8" selection-end-line="194" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -828,8 +769,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerOCR.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
+        <state relative-caret-position="216">
+          <caret line="11" column="43" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-370">
+          <caret line="94" column="11" selection-start-line="94" selection-start-column="11" selection-end-line="94" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -838,8 +786,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="135" column="3" selection-start-line="135" selection-start-column="3" selection-end-line="135" selection-end-column="3" />
+        <state relative-caret-position="451">
+          <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerCameraPlanes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="198" lean-forward="true" selection-start-line="198" selection-end-line="198" />
+          <folding>
+            <element signature="e#2169#2170#0" expanded="true" />
+            <element signature="e#2242#2243#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

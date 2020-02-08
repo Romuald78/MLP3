@@ -73,6 +73,12 @@ public class TrainerXOR implements ITraining {
     }
 
     @Override
+    public String[] getInputLabels() {
+        String[] out = {"a", "b"};
+        return out;
+    }
+
+    @Override
     public String[] getOutputLabels() {
         String[] out = {"out : a^b"};
         return out;

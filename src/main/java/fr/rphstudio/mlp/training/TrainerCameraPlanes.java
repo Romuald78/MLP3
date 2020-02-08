@@ -2,7 +2,7 @@ package fr.rphstudio.mlp.training;
 
 import java.util.InputMismatchException;
 
-public class TrainerCamera2D implements ITraining {
+public class TrainerCameraPlanes implements ITraining {
 
     // camera focals
     public final double focal1   = 20;
@@ -33,8 +33,13 @@ public class TrainerCamera2D implements ITraining {
     public double dcy = 150;
     public double dcz = 200;
 
+    // prepare plan sizes
+    private final int BACK = this.totalW*this.totalH;
+    private final int SIDE = this.totalH*this.totalD;
+    private final int VERT = this.totalD*this.totalW;
+
     // Constructor : place the two cameras randomly
-    public TrainerCamera2D(){
+    public TrainerCameraPlanes(){
         // middle screen X points
         this.mid1 = this.du1;
         this.mid2 = this.totalW - this.du2;
@@ -85,20 +90,56 @@ public class TrainerCamera2D implements ITraining {
 
     @Override
     public int getNbDataSet() {
-        return (int)(this.totalW*this.totalD*this.totalH + 0.999);
+        return BACK+2*SIDE+2*VERT;
     }
 
     public double[] getPositionUVW(int num){
-        // compute u and v from num
-        // num = w*(W*D) + v*W + u
-        double u = num % this.totalW;
-        num -= u;
-        num /= this.totalW;
-        double v = num%this.totalD;
-        num -= v;
-        num /= this.totalD;
-        double w = num%this.totalH;
+        // prepare coords
+        int u = 0;  // x axis (W)
+        int v = 0;  // y axis (D)
+        int w = 0;  // z axis (H)
+        // compute u v w from num
+        // 1st plane : BACK
+        if(num < BACK){
+            num -= 0;
+            v = this.totalD;
+            u = num%this.totalW;
+            w = num/this.totalW;
+        }
+        // 2nd plane : LEFT
+        else if(num < BACK+SIDE){
+            num -= BACK;
+            u = 0;
+            w = num%this.totalH;
+            v = num/this.totalH;
+        }
+        // 3rd plane : RIGHT
+        else if(num < BACK+2*SIDE){
+            num -= BACK+SIDE;
+            u = this.totalW;
+            w = num%this.totalH;
+            v = num/this.totalH;
+        }
+        // 4th plane : BOTTOM
+        else if(num < BACK+2*SIDE+VERT){
+            num -= BACK+2*SIDE;
+            w = 0;
+            v = num%this.totalD;
+            u = num/this.totalD;
+        }
+        // 5th plane : TOP
+        else if(num < BACK+2*SIDE+2*VERT){
+            num -= BACK+2*SIDE+VERT;
+            w = this.totalH;
+            v = num%this.totalD;
+            u = num/this.totalD;
+        }
+        // ERROR for others
+        else{
+            throw new InputMismatchException("[ERROR] Bad num value : "+num);
+        }
 
+        // Prepare output data
         double[] uvw = {u,v,w};
         return uvw;
     }
@@ -153,6 +194,12 @@ public class TrainerCamera2D implements ITraining {
     @Override
     public String[] getOutputLabels() {
         String[] out = { "alpha", "beta" };
+        return out;
+    }
+
+    @Override
+    public String[] getInputLabels() {
+        String[] out = { "X1", "Y1", "X2", "Y2" };
         return out;
     }
 

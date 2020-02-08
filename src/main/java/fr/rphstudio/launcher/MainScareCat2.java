@@ -11,17 +11,20 @@ import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
 import fr.rphstudio.mlp.training.ITraining;
-import fr.rphstudio.mlp.training.ITraining.*;
+import fr.rphstudio.mlp.training.ITraining.TrainResult;
 import fr.rphstudio.mlp.training.TrainerCameraBox;
+import fr.rphstudio.mlp.training.TrainerCameraPlanes;
 import fr.rphstudio.mlp.utils.SlickDisplayMLP;
 import fr.rphstudio.mlp.utils.Training;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
-public class MainScareCat extends BasicGameState {
+public class MainScareCat2 extends BasicGameState {
     //------------------------------------------------
     // PUBLIC CONSTANTS
     //------------------------------------------------
@@ -44,7 +47,6 @@ public class MainScareCat extends BasicGameState {
     private MLP mlp;
 
     private long TIME_STEP = 0;
-    private int dataSet = 0;
     private TrainResult result = TrainResult.MAX_ITERATION;
 
     private float targetH = 0;
@@ -92,7 +94,7 @@ public class MainScareCat extends BasicGameState {
     //------------------------------------------------
     // CONSTRUCTOR
     //------------------------------------------------
-    public MainScareCat() {
+    public MainScareCat2() {
     }
 
 
@@ -113,7 +115,7 @@ public class MainScareCat extends BasicGameState {
         this.movingUp = false;
 
         // Create trainer
-        this.trainer = new TrainerCameraBox();
+        this.trainer = new TrainerCameraPlanes();
 
         // Create MLP data
         int[] sizes = {4, 16, 16, 2};
@@ -126,6 +128,9 @@ public class MainScareCat extends BasicGameState {
 
         // Scramble weights and bias
         this.mlp.scramble();
+
+        // Set size for MLP display
+        SlickDisplayMLP.setSize(25);
     }
 
 
@@ -137,7 +142,7 @@ public class MainScareCat extends BasicGameState {
         MainLauncher.fitScreen(container, g);
 
         // Get trainer
-        TrainerCameraBox tr = ((TrainerCameraBox) this.trainer);
+        TrainerCameraPlanes tr = ((TrainerCameraPlanes) this.trainer);
 
         // get values
         float W = (float) tr.totalW;
@@ -207,23 +212,32 @@ public class MainScareCat extends BasicGameState {
         float x = 0;
         float y = 0;
         float z = 0;
+        float u = 0;
+        float v = 0;
+        float w = 0;
         this.targetH = Math.min(Math.max(0, this.targetH), H - 1);
 
-        // Get mouse position and trace lines to point from cameras
-        x = this.container.getInput().getMouseX() - refX;
-        y = D - (this.container.getInput().getMouseY() - refY);
-        z = this.targetH;
-        x = Math.min(Math.max(0, x), W - 1);
-        y = Math.min(Math.max(0, y), D - 1);
-        z = Math.min(Math.max(0, z), H - 1);
-
-        // Compute dataset according to mouse position
-        this.dataSet = (int) ((z*W*D) + (y*W) + x);
+        // Get absolute position
+        x = this.container.getInput().getMouseX();
+        y = this.container.getInput().getMouseY();
+        z = this.targetH + refX2;
+        // get real position
+        u = x - refX;
+        v = D - (y - refY);
+        w = z - refX2;
+        // saturate real position
+        u = Math.min(Math.max(0, u), W - 1);
+        v = Math.min(Math.max(0, v), D - 1);
+        w = Math.min(Math.max(0, w), H - 1);
+        // recompute absolute position
+        x = u + refX;
+        y = (D- v) + refY;
+        z = w + refX2;
 
         // Get Screen position (IN) and cannon angle (OUT) according to number of dataset
-        double[] in = tr.getInputDataSet(dataSet);
-        double[] outTheoric = tr.getOutputDataSet(dataSet);
-        double[] outReal = tr.getOutputDataSet(dataSet);
+        double[] in = tr.getInputDataSet(u,v,w);
+        double[] outTheoric = tr.getOutputDataSet(u,v,w);     // TODO not correct
+        double[] outReal = {0,0};
 
         // update real out using the trained mlp
         this.mlp.setInputs(in);
@@ -236,14 +250,6 @@ public class MainScareCat extends BasicGameState {
         float alphaReal    = (float) (outReal[0]    * Math.PI); // -pi to +pi
         float betaTheoric  = (float) (outTheoric[1] * Math.PI); // -pi to +pi
         float betaReal     = (float) (outReal[1]    * Math.PI); // -pi to +pi
-
-        // get position according to dataSet
-        x = (float) (tr.getPositionUVW(dataSet)[0]);
-        y = (float) (tr.getPositionUVW(dataSet)[1]);
-        z = (float) (tr.getPositionUVW(dataSet)[2]);
-        x = x + refX;
-        y = (D- y) + refY;
-        z = z + refX2;
 
         // Compute error message
         int err = (int)(100*1000*(Math.abs(alphaReal-alphaTheoric)+Math.abs(betaReal-betaTheoric))/Math.PI);
@@ -341,7 +347,7 @@ public class MainScareCat extends BasicGameState {
 
         // train MLP (only if it has to)
         if (this.result == TrainResult.MAX_ITERATION) {
-            this.result = Training.trainMLP(this.mlp, this.trainer, false, 20000);
+            this.result = Training.trainMLP(this.mlp, this.trainer, false, 30000);
             // display if finished correctly
             if (this.result == TrainResult.LEVEL_OK) {
                 System.out.println(this.mlp);

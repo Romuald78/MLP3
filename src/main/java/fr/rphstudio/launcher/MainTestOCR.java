@@ -12,7 +12,6 @@ import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
 import fr.rphstudio.mlp.training.ITraining;
 import fr.rphstudio.mlp.training.ITraining.TrainResult;
-import fr.rphstudio.mlp.training.TrainerCamera2D;
 import fr.rphstudio.mlp.training.TrainerOCR;
 import fr.rphstudio.mlp.utils.SlickDisplayMLP;
 import fr.rphstudio.mlp.utils.Training;
@@ -125,6 +124,9 @@ public class MainTestOCR extends BasicGameState {
 
         // create image
         this.charImg = new Image(TrainerOCR.THUMB_SIZE,TrainerOCR.THUMB_SIZE);
+
+        // Set size of MLP display
+        SlickDisplayMLP.setSize(10);
     }
 
 
@@ -180,7 +182,7 @@ public class MainTestOCR extends BasicGameState {
 
         // train MLP (only if it has to)
         if (this.result == TrainResult.MAX_ITERATION) {
-            this.result = Training.trainMLP(this.mlp, this.trainer, false, 60000);
+            this.result = Training.trainMLP(this.mlp, this.trainer, false, 5000);
             // display if finished correctly
             if (this.result == TrainResult.LEVEL_OK) {
                 System.out.println(this.mlp);

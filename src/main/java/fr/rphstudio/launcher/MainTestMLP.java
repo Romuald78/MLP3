@@ -10,9 +10,7 @@ import fr.rphstudio.mlp.activation.ActivationFunction;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
-import fr.rphstudio.mlp.except.TrainingFailureException;
 import fr.rphstudio.mlp.training.ITraining;
-import fr.rphstudio.mlp.training.TrainerCamera2D;
 import fr.rphstudio.mlp.training.TrainerLCD7;
 import fr.rphstudio.mlp.training.TrainerXOR;
 import fr.rphstudio.mlp.utils.SlickDisplayMLP;
@@ -177,7 +175,7 @@ public class MainTestMLP extends BasicGameState
 
         /* ========== SCARECAT ==========
         // Create trainer
-        this.trainer = new TrainerCamera2D();
+        this.trainer = new TrainerCameraBox();
         // Create layers (size + activation functions)
         this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
         this.layers.add( new LayerStruct(16, new TanH() ) );
@@ -185,7 +183,7 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
         //*/
 
-        /* ========== LCD 7 ==========
+        //* ========== LCD 7 ==========
         // Create trainer
         this.trainer = new TrainerLCD7();
         // Create layers (size + activation functions)
@@ -194,7 +192,7 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
         //*/
 
-        //* ========== XOR ==========
+        /* ========== XOR ==========
         // Create trainer
         this.trainer = new TrainerXOR();
         // Create layers (size + activation functions)
@@ -238,6 +236,9 @@ public class MainTestMLP extends BasicGameState
 
         // display final MLP configuration
         System.out.println(this.mlp);
+
+        // set display size
+        SlickDisplayMLP.setSize(45);
     }
 
     //------------------------------------------------

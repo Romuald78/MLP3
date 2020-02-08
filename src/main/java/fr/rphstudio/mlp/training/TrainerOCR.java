@@ -133,6 +133,11 @@ public class TrainerOCR implements ITraining {
     }
 
     @Override
+    public String[] getInputLabels() {
+        return null;
+    }
+
+        @Override
     public String[] getOutputLabels() {
         String[] out = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "?" };
         /*"A","B","C","D","E","F","G","H","I","J","K","L","M",

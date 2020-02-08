@@ -28,7 +28,8 @@ public interface ITraining {
     public double[] getInputDataSet(int num);
     public double[] getOutputDataSet(int num);
 
-    // get output labels
+    // get labels
+    public String[] getInputLabels();
     public String[] getOutputLabels();
 
 }

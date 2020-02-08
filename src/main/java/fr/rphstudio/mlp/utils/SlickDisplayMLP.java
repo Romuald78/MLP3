@@ -10,21 +10,46 @@ public class SlickDisplayMLP {
     //------------------------------------------------
     // PRIVATE CONSTANTS
     //------------------------------------------------
-    private static final int CIRCLE_WIDTH  = 7;
-    private static final int CIRCLE_HEIGHT = CIRCLE_WIDTH;
-    private static final int DZ  = 8;
-    private static final int DAF = 8;
-    private static final int NEURON_WIDTH  = DZ+DAF*2;
-    private static final int NEURON_HEIGHT = NEURON_WIDTH/2;
+    private static int SIZE = 30;
+    private static int LAYER_SPACE = 4;
+    private static int LAYER_INTER = 125;
 
-    private static final int OUT_WIDTH  = 10;
-    private static final int OUT_BOX    = 20;       // out box is the hit box used when mouse is over
-    private static final int OUT_HEIGHT = OUT_WIDTH;
+    private static int CIRCLE_WIDTH  = (int)(SIZE*0.75);
+    private static int CIRCLE_HEIGHT = CIRCLE_WIDTH;
+    private static int DZ  = CIRCLE_WIDTH;
+    private static int DAF = DZ;;
+    private static int NEURON_WIDTH  = DZ+DAF*2;
+    private static int NEURON_HEIGHT = NEURON_WIDTH/2;
 
-    private static final int LAYER_SPACE = 4;
-    private static final int LAYER_WIDTH = 2*LAYER_SPACE + NEURON_WIDTH;
-    private static final int LAYER_INTER = 125;
+    private static int OUT_WIDTH  = SIZE;
+    private static int OUT_BOX    = 2*SIZE;       // out box is the hit box used when mouse is over
+    private static int OUT_HEIGHT = OUT_WIDTH;
 
+    private static int LAYER_WIDTH = 2*LAYER_SPACE + NEURON_WIDTH;
+
+    private static double minWeight=0;
+    private static double maxWeight=1;
+
+
+    public static void setSize(int sz){
+        SIZE = sz;
+        CIRCLE_WIDTH  = (int)(SIZE*0.75);
+        CIRCLE_HEIGHT = CIRCLE_WIDTH;
+        DZ  = CIRCLE_WIDTH;
+        DAF = DZ;;
+        NEURON_WIDTH  = DZ+DAF*2;
+        NEURON_HEIGHT = NEURON_WIDTH/2;
+        OUT_WIDTH  = SIZE;
+        OUT_BOX    = 2*SIZE;       // out box is the hit box used when mouse is over
+        OUT_HEIGHT = OUT_WIDTH;
+        LAYER_WIDTH = 2*LAYER_SPACE + NEURON_WIDTH;
+    }
+
+    public static void setWeightExtremum(MLP mlp){
+        double[] extr = mlp.getWeightExtremum();
+        minWeight = extr[0];
+        maxWeight = extr[1];
+    }
 
     public static void renderNeuron(MLP mlp, Graphics g, float x, float y, int numLayer, int numNeuron, String label, float refX, float midY ){
         // update ref position
@@ -38,8 +63,21 @@ public class SlickDisplayMLP {
             float hPrev = LAYER_SPACE+N*(NEURON_HEIGHT+LAYER_SPACE);
             float yPrev = midY - (hPrev/2) + i*(NEURON_HEIGHT+LAYER_SPACE)+(NEURON_HEIGHT/2)+LAYER_SPACE;
             float xPrev = x-LAYER_INTER-(2*LAYER_SPACE);
-            int v = (int)(128*mlp.getWeight(numLayer, numNeuron, i))+127;
-            Color clr = new Color(v,v,v,255);
+            // Draw with color according to weight value
+            double vw = mlp.getWeight(numLayer, numNeuron, i);
+            vw -= minWeight;
+            vw /= (maxWeight-minWeight);
+            // And according to previous output value (output values are between -1 and +1)
+            double vo = mlp.getOutput(numLayer-1,i);
+            vo -= -1;
+            vo /=  2;
+            int wo  = (int)( vw*(1-vo)*255 );
+            int sig = (int)( vw*vo*255 );
+            int a   = 128;
+            if(sig > wo){
+                a= 255;
+            }
+            Color clr = new Color(wo,Math.max(sig,wo),wo,a);
             g.setColor(clr);
             g.drawLine(x+DZ,y+(NEURON_HEIGHT/2),xPrev,yPrev);
         }
@@ -60,12 +98,11 @@ public class SlickDisplayMLP {
         // draw label
         if(label != null){
             g.setColor(Color.yellow);
-            g.drawString(label, x+DZ+DAF+DAF + 15, y+(NEURON_HEIGHT-OUT_HEIGHT)/2 - 4 );
-            g.drawString(label, x+DZ+DAF+DAF + 15, y+(NEURON_HEIGHT-OUT_HEIGHT)/2 - 4 );
+            g.drawString(label, x+DZ+DAF+DAF + 20, y+(NEURON_HEIGHT-OUT_HEIGHT)+4 );
         }
     }
 
-    public static void renderInput(MLP mlp,  Graphics g, float x, float y, int numInput ){
+    public static void renderInput(MLP mlp,  Graphics g, float x, float y, int numInput, String label ){
         // update ref position
         y += numInput*(NEURON_HEIGHT+LAYER_SPACE);
         g.setColor(Color.blue);
@@ -77,10 +114,14 @@ public class SlickDisplayMLP {
         g.fillOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
         g.setColor(Color.blue);
         g.drawOval(x+DZ+DAF+DAF-(OUT_WIDTH/2),y+(NEURON_HEIGHT-OUT_HEIGHT)/2,OUT_WIDTH,OUT_HEIGHT);
+        // draw label
+        if(label != null){
+            g.setColor(Color.blue);
+            g.drawString(label, x-60, y+(NEURON_HEIGHT-OUT_HEIGHT)+4   );
+        }
     }
 
     public static void renderLayer(MLP mlp, Graphics g, float xRef, float yMid, int numLayer, ITraining trainer){
-        String[] labels = trainer.getOutputLabels();
         int N = 0;
         if(numLayer == 0){
             N = mlp.getNbInput();
@@ -99,11 +140,19 @@ public class SlickDisplayMLP {
         // Display each neuron or input
         if(numLayer==0){
             for (int row = 0; row < N; row++) {
-                SlickDisplayMLP.renderInput(mlp, g, x + LAYER_SPACE + numLayer * (LAYER_WIDTH + LAYER_INTER), y + LAYER_SPACE, row);
+                String[] labels = trainer.getInputLabels();
+                String label = null;
+                if(labels != null){
+                    if(labels.length == N){
+                        label = labels[row];
+                    }
+                }
+                SlickDisplayMLP.renderInput(mlp, g, x + LAYER_SPACE + numLayer * (LAYER_WIDTH + LAYER_INTER), y + LAYER_SPACE, row, label);
             }
         }
         else {
             for (int row = 0; row < N; row++) {
+                String[] labels = trainer.getOutputLabels();
                 String label = null;
                 if(labels != null){
                     if(labels.length == N){
@@ -118,6 +167,7 @@ public class SlickDisplayMLP {
 
     // Get MLP information and display neurons according to
     public static void displayMLP(MLP mlp, Graphics g, ITraining trainer, float refX, float midY){
+        SlickDisplayMLP.setWeightExtremum(mlp);
         int L = mlp.getNbLayers();
         for(int i=L-1;i>=0;i--){
             SlickDisplayMLP.renderLayer(mlp, g, refX,midY, i, trainer);

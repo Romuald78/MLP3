@@ -199,11 +199,31 @@ public class MLP {
         }
     }
 
-
+    public double[] getWeightExtremum(){
+        double mini = 1000000000;
+        double maxi = -1000000000;
+        for(int lay=1;lay<this.getNbLayers();lay++){
+            for(int i=0;i<this.neuronLayers.get(lay-1).W.length;i++) {
+                for (int j = 0; j < this.neuronLayers.get(lay - 1).W[0].length; j++) {
+                    double w = this.neuronLayers.get(lay-1).W[i][j];
+                    if(w<mini){
+                        mini = w;
+                    }
+                    if(w>maxi){
+                        maxi = w;
+                    }
+                }
+            }
+        }
+        double[] result = {mini,maxi};
+        return result;
+    }
 
     public void setWeight(int numLayer, int numNeuron, int prevNumNeuron, double value){
         this.neuronLayers.get(numLayer-1).W[numNeuron][prevNumNeuron] = value;
     }
+
+
 
 
     public String toString(){
