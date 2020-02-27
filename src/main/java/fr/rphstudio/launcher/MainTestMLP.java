@@ -10,9 +10,8 @@ import fr.rphstudio.mlp.activation.ActivationFunction;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
-import fr.rphstudio.mlp.training.ITraining;
-import fr.rphstudio.mlp.training.TrainerLCD7;
-import fr.rphstudio.mlp.training.TrainerXOR;
+import fr.rphstudio.mlp.training.*;
+import fr.rphstudio.mlp.training.ITraining.*;
 import fr.rphstudio.mlp.utils.SlickDisplayMLP;
 import fr.rphstudio.mlp.utils.Training;
 import org.newdawn.slick.*;
@@ -85,7 +84,7 @@ public class MainTestMLP extends BasicGameState
 
     private long              timeWatch;
     private boolean           displayHelp;
-
+    private TrainResult result = TrainResult.MAX_ITERATION;
 
 
 
@@ -183,12 +182,23 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
         //*/
 
-        //* ========== LCD 7 ==========
+        /* ========== LCD 7 ==========
         // Create trainer
         this.trainer = new TrainerLCD7();
         // Create layers (size + activation functions)
         this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
         this.layers.add( new LayerStruct(3, new TanH() ) );
+        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        //*/
+
+        /* ========== AutoEncoder ==========
+        // Create trainer
+        this.trainer = new TrainerAutoEncoder();
+        // Create layers (size + activation functions)
+        this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
+        this.layers.add( new LayerStruct(16, new TanH() ) );
+        this.layers.add( new LayerStruct(6, new TanH() ) );
+        this.layers.add( new LayerStruct(16, new TanH() ) );
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
         //*/
 
@@ -230,9 +240,6 @@ public class MainTestMLP extends BasicGameState
 
         // Scramble before train
         this.mlp.scramble();
-
-        // train MLP
-        Training.trainMLP(this.mlp, this.trainer);
 
         // display final MLP configuration
         System.out.println(this.mlp);
@@ -283,6 +290,11 @@ public class MainTestMLP extends BasicGameState
     {
         // measure time
         this.timeWatch += delta;
+
+        // train MLP
+        if(this.result == TrainResult.MAX_ITERATION){
+            this.result = Training.trainMLP(this.mlp, this.trainer, 50000);
+        }
 
         // check when we have to perform operation
         if(this.timeWatch > TIME_STEP){

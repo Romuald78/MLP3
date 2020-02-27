@@ -341,7 +341,7 @@ public class MainScareCat extends BasicGameState {
 
         // train MLP (only if it has to)
         if (this.result == TrainResult.MAX_ITERATION) {
-            this.result = Training.trainMLP(this.mlp, this.trainer, false, 20000);
+            this.result = Training.trainMLP(this.mlp, this.trainer, false, 50000);
             // display if finished correctly
             if (this.result == TrainResult.LEVEL_OK) {
                 System.out.println(this.mlp);
