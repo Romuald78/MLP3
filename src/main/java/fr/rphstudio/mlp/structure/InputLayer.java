@@ -2,9 +2,10 @@ package fr.rphstudio.mlp.structure;
 
 import fr.rphstudio.mlp.utils.Console;
 
+import java.io.Serializable;
 import java.util.InputMismatchException;
 
-public class InputLayer {
+public class InputLayer implements Serializable {
 
     // Properties
     public double[]   A;

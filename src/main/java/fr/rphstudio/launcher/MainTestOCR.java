@@ -7,12 +7,14 @@ package fr.rphstudio.launcher;
 
 import fr.rphstudio.mlp.MLP;
 import fr.rphstudio.mlp.activation.ActivationFunction;
+import fr.rphstudio.mlp.activation.SoftMax;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
 import fr.rphstudio.mlp.training.ITraining;
 import fr.rphstudio.mlp.training.ITraining.TrainResult;
 import fr.rphstudio.mlp.training.TrainerOCR;
+import fr.rphstudio.mlp.utils.SaveRestore;
 import fr.rphstudio.mlp.utils.SlickDisplayMLP;
 import fr.rphstudio.mlp.utils.Training;
 import org.newdawn.slick.*;
@@ -49,6 +51,7 @@ public class MainTestOCR extends BasicGameState {
     private int dataSet = 0;
     private TrainResult result = TrainResult.MAX_ITERATION;
     private Image charImg;
+    private String saveFileName;
 
 
     //------------------------------------------------
@@ -107,12 +110,16 @@ public class MainTestOCR extends BasicGameState {
         // Get version string
         this.getVersion();
 
+        // Set filename for save/restore
+        this.saveFileName = "OCR.mlp";
+
         // Create trainer
         this.trainer = new TrainerOCR();
 
         // Create MLP data
         int[] sizes = { this.trainer.getInputSize(), 32, 16, this.trainer.getOutputSize() };
-        ActivationFunction af = new TanH();
+        ActivationFunction af  = new TanH();
+
         CostFunction cf = new Quadratic();
         ActivationFunction[] afs = {af, af, af};
 
@@ -121,6 +128,13 @@ public class MainTestOCR extends BasicGameState {
 
         // Scramble weights and bias
         this.mlp.scramble();
+
+        // Restore if possible
+        MLP loadedMLP = SaveRestore.restore(this.saveFileName);
+        if(loadedMLP != null){
+            this.mlp = loadedMLP;
+            this.result = TrainResult.LEVEL_OK;
+        }
 
         // create image
         this.charImg = new Image(TrainerOCR.THUMB_SIZE,TrainerOCR.THUMB_SIZE);
@@ -183,8 +197,11 @@ public class MainTestOCR extends BasicGameState {
         // train MLP (only if it has to)
         if (this.result == TrainResult.MAX_ITERATION) {
             this.result = Training.trainMLP(this.mlp, this.trainer, false, 5000);
-            // display if finished correctly
-            if (this.result == TrainResult.LEVEL_OK) {
+            // save and display if finished correctly
+            if(this.result == TrainResult.LEVEL_OK){
+                // Save LCD
+                SaveRestore.save(this.mlp,"./"+this.saveFileName);
+                // display MLP
                 System.out.println(this.mlp);
             }
         }

@@ -10,13 +10,34 @@ public class SoftMax implements ActivationFunction {
         for(int i=0;i<allX.length;i++){
             sum += Math.exp( allX[i] );
         }
-        return Math.exp(x)/sum;
+        // Get simple element
+        double eX = Math.exp(x);
+        // return result
+        return eX/sum;
     }
 
     @Override
     public double derivative(double x, double[] allX) {
-        double y = this.function(x,allX);
-        return y*(1-y);
+
+        // /!\
+        // Either this code sucks, or there is something i've missed in using SoftMax activation function (?)
+        // /!\
+
+        // Get sum of all X
+        double v = 0;
+        for(int i=0;i<allX.length;i++){
+            v += Math.exp( allX[i] );
+        }
+        // Get X element
+        double u = Math.exp(x);
+        // Compute u'
+        double up = u;
+        // compute v'
+        double vp = u;
+        // Compute (u/v)' = (u'v - uv') / v²
+        double result = ((up*v)-(u*vp))/(v*v);
+        // return result
+        return result;
     }
 
 }

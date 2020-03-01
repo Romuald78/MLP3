@@ -7,11 +7,12 @@ import fr.rphstudio.mlp.utils.Console;
 import fr.rphstudio.mlp.structure.InputLayer;
 import fr.rphstudio.mlp.structure.NeuronLayer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 
-public class MLP {
+public class MLP implements Serializable {
 
     private InputLayer inputLayer;
     private List<NeuronLayer> neuronLayers;

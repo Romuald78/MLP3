@@ -14,6 +14,7 @@ import fr.rphstudio.mlp.training.ITraining;
 import fr.rphstudio.mlp.training.ITraining.TrainResult;
 import fr.rphstudio.mlp.training.TrainerCameraBox;
 import fr.rphstudio.mlp.training.TrainerCameraPlanes;
+import fr.rphstudio.mlp.utils.SaveRestore;
 import fr.rphstudio.mlp.utils.SlickDisplayMLP;
 import fr.rphstudio.mlp.utils.Training;
 import org.newdawn.slick.*;
@@ -52,6 +53,8 @@ public class MainScareCat2 extends BasicGameState {
     private float targetH = 0;
     private boolean movingUp = false;
     private boolean movingDown = false;
+    private String saveFileName;
+
 
     //------------------------------------------------
     // PRIVATE METHODS
@@ -128,6 +131,15 @@ public class MainScareCat2 extends BasicGameState {
 
         // Scramble weights and bias
         this.mlp.scramble();
+
+        this.saveFileName = "ScareCat_Planes.mlp";
+
+        // Restore if possible
+        MLP loadedMLP = SaveRestore.restore(this.saveFileName);
+        if(loadedMLP != null){
+            this.mlp = loadedMLP;
+            this.result = TrainResult.LEVEL_OK;
+        }
 
         // Set size for MLP display
         SlickDisplayMLP.setSize(25);
@@ -349,7 +361,10 @@ public class MainScareCat2 extends BasicGameState {
         if (this.result == TrainResult.MAX_ITERATION) {
             this.result = Training.trainMLP(this.mlp, this.trainer, false, 30000);
             // display if finished correctly
-            if (this.result == TrainResult.LEVEL_OK) {
+            if(this.result == TrainResult.LEVEL_OK){
+                // Save LCD
+                SaveRestore.save(this.mlp,"./"+this.saveFileName);
+                // display MLP
                 System.out.println(this.mlp);
             }
         }

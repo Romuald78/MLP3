@@ -13,6 +13,7 @@ public class SaveRestore {
     }
 
     public static void save(MLP mlp, String path){
+        System.out.println("Saving into "+path+" ...");
         try {
             // open connection to file
             FileOutputStream   fos = new FileOutputStream(new File(path));

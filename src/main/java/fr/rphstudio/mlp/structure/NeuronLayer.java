@@ -3,9 +3,10 @@ package fr.rphstudio.mlp.structure;
 import fr.rphstudio.mlp.activation.ActivationFunction;
 import fr.rphstudio.mlp.utils.Console;
 
+import java.io.Serializable;
 import java.util.InputMismatchException;
 
-public class NeuronLayer {
+public class NeuronLayer implements Serializable {
 
     // Properties
     public double[]   A;

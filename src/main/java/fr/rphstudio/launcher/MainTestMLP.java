@@ -7,11 +7,13 @@ package fr.rphstudio.launcher;
 
 import fr.rphstudio.mlp.MLP;
 import fr.rphstudio.mlp.activation.ActivationFunction;
+import fr.rphstudio.mlp.activation.SoftMax;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
 import fr.rphstudio.mlp.training.*;
 import fr.rphstudio.mlp.training.ITraining.*;
+import fr.rphstudio.mlp.utils.SaveRestore;
 import fr.rphstudio.mlp.utils.SlickDisplayMLP;
 import fr.rphstudio.mlp.utils.Training;
 import org.newdawn.slick.*;
@@ -85,7 +87,7 @@ public class MainTestMLP extends BasicGameState
     private long              timeWatch;
     private boolean           displayHelp;
     private TrainResult result = TrainResult.MAX_ITERATION;
-
+    private String saveFileName;
 
 
     //------------------------------------------------
@@ -180,15 +182,19 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(16, new TanH() ) );
         this.layers.add( new LayerStruct(16, new TanH() ) );
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        // Set filename
+        this.saveFileName = "scareCatBox.mlp";
         //*/
 
-        /* ========== LCD 7 ==========
+        //* ========== LCD 7 ==========
         // Create trainer
         this.trainer = new TrainerLCD7();
         // Create layers (size + activation functions)
         this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
         this.layers.add( new LayerStruct(3, new TanH() ) );
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        // Set filename
+        this.saveFileName = "LCD7.mlp";
         //*/
 
         /* ========== AutoEncoder ==========
@@ -200,6 +206,8 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(6, new TanH() ) );
         this.layers.add( new LayerStruct(16, new TanH() ) );
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        // Set filename
+        this.saveFileName = "autoEncoder.mlp";
         //*/
 
         /* ========== XOR ==========
@@ -209,8 +217,9 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
         this.layers.add( new LayerStruct(2, new TanH() ) );
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        // Set filename
+        this.saveFileName = "XOR.mlp";
         //*/
-
 
         // Init the application
         this.init();
@@ -237,15 +246,20 @@ public class MainTestMLP extends BasicGameState
 
         // instanciate MLP
         this.mlp = new MLP( sizes, afs, this.cf );
-
-        // Scramble before train
+        // Scramble before training
         this.mlp.scramble();
 
-        // display final MLP configuration
-        System.out.println(this.mlp);
+        // Load previous MLP file
+        MLP loadedMLP = SaveRestore.restore(this.saveFileName);
+        if(loadedMLP != null){
+            this.mlp = loadedMLP;
+            this.result = TrainResult.LEVEL_OK;
+        }
 
         // set display size
         SlickDisplayMLP.setSize(45);
+
+
     }
 
     //------------------------------------------------
@@ -294,6 +308,12 @@ public class MainTestMLP extends BasicGameState
         // train MLP
         if(this.result == TrainResult.MAX_ITERATION){
             this.result = Training.trainMLP(this.mlp, this.trainer, 50000);
+            if(this.result == TrainResult.LEVEL_OK){
+                // Save LCD
+                SaveRestore.save(this.mlp,"./"+this.saveFileName);
+                // display MLP
+                System.out.println(this.mlp);
+            }
         }
 
         // check when we have to perform operation

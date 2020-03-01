@@ -69,6 +69,7 @@ public class TrainerOCR implements ITraining {
     public int getNbDataSet() {
         // 26 letters
         // 10 numbers
+        // 1 unknown character
         return 10+1; //26+10;
     }
 
