@@ -1,1 +1,1 @@
-ProcJam Itch.io 11/2019 - RPH Studio - v${project.version}
+Neural Network Test - RPH Studio - v${project.version}

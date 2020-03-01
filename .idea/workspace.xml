@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dc11dc89-019b-4ce8-b98e-20312436f852" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/LCD7_softmax.mlp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OCR_softmax.mlp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestMLP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestMLP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/launcher/MainTestOCR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/SoftMax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/activation/SoftMax.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerOCR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/training/TrainerOCR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/info/version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/info/version.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="381">
-              <caret line="100" column="79" lean-forward="true" selection-start-line="100" selection-start-column="79" selection-end-line="100" selection-end-column="79" />
+              <caret line="100" column="79" selection-start-line="100" selection-start-column="79" selection-end-line="100" selection-end-column="79" />
             </state>
           </provider>
         </entry>
@@ -395,7 +387,7 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32034633" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32034633" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
@@ -823,7 +815,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/rphstudio/mlp/utils/SlickDisplayMLP.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="381">
-          <caret line="100" column="79" lean-forward="true" selection-start-line="100" selection-start-column="79" selection-end-line="100" selection-end-column="79" />
+          <caret line="100" column="79" selection-start-line="100" selection-start-column="79" selection-end-line="100" selection-end-column="79" />
         </state>
       </provider>
     </entry>
