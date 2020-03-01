@@ -98,7 +98,7 @@ public class SlickDisplayMLP {
         // draw label
         if(label != null){
             g.setColor(Color.yellow);
-            g.drawString(label, x+DZ+DAF+DAF + 20, y+(NEURON_HEIGHT-OUT_HEIGHT)+4 );
+            g.drawString(label, x+DZ+DAF+DAF + 20, y+(NEURON_HEIGHT-OUT_HEIGHT) );
         }
     }
 

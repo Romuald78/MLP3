@@ -12,8 +12,10 @@ public class SoftMax implements ActivationFunction {
         }
         // Get simple element
         double eX = Math.exp(x);
-        // return result
-        return eX/sum;
+        // Compute result
+        double result = eX/sum;
+        // Normalize result from -1.0 to +1.0
+        return (2*result)-1;
     }
 
     @Override

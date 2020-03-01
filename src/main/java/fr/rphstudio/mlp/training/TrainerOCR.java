@@ -62,7 +62,7 @@ public class TrainerOCR implements ITraining {
     @Override
     public int getOutputSize() {
         // 26 letters, 10 numbers, 1 output for all other characters
-        return 10+1; //26+10+1;
+        return 10+26+1; //26+10+1;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class TrainerOCR implements ITraining {
         // 26 letters
         // 10 numbers
         // 1 unknown character
-        return 10+1; //26+10;
+        return 10+26+1; //26+10;
     }
 
     public String getCharFromDataSet(int num){
@@ -79,10 +79,12 @@ public class TrainerOCR implements ITraining {
             // number;
             num += '0';
         }
-        else{
+        else if(num<36){
             // letter
-            num = '9'+1;
-            num += (int)(Math.random()*100);
+            num -=10;
+            num += 'A';
+        }
+        else{
             num = '?';
         }
         car = Character.toString( (char)num );
@@ -140,11 +142,11 @@ public class TrainerOCR implements ITraining {
 
         @Override
     public String[] getOutputLabels() {
-        String[] out = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "?" };
-        /*"A","B","C","D","E","F","G","H","I","J","K","L","M",
+        String[] out = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                         "A","B","C","D","E","F","G","H","I","J","K","L","M",
                          "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
                          "?"
-                        };*/
+                        };
         return out;
     }
 

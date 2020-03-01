@@ -111,7 +111,7 @@ public class MainTestOCR extends BasicGameState {
         this.getVersion();
 
         // Set filename for save/restore
-        this.saveFileName = "OCR.mlp";
+        this.saveFileName = "OCR_softmax.mlp";
 
         // Create trainer
         this.trainer = new TrainerOCR();
@@ -119,9 +119,10 @@ public class MainTestOCR extends BasicGameState {
         // Create MLP data
         int[] sizes = { this.trainer.getInputSize(), 32, 16, this.trainer.getOutputSize() };
         ActivationFunction af  = new TanH();
+        ActivationFunction af2 = new SoftMax();
 
         CostFunction cf = new Quadratic();
-        ActivationFunction[] afs = {af, af, af};
+        ActivationFunction[] afs = {af, af, af2};
 
         // instanciate MLP
         this.mlp = new MLP(sizes, afs, cf);
@@ -140,7 +141,7 @@ public class MainTestOCR extends BasicGameState {
         this.charImg = new Image(TrainerOCR.THUMB_SIZE,TrainerOCR.THUMB_SIZE);
 
         // Set size of MLP display
-        SlickDisplayMLP.setSize(10);
+        SlickDisplayMLP.setSize(15);
     }
 
 
@@ -160,7 +161,7 @@ public class MainTestOCR extends BasicGameState {
 
         // prepare x and y position
         float x = refX;
-        float y = refY + (this.dataSet * 16);
+        float y = refY + (this.dataSet * 20);
 
         // Get Screen position (IN) and cannon angle (OUT) according to number of dataset
         double[] in  = tr.getInputDataSet(dataSet);
@@ -176,11 +177,11 @@ public class MainTestOCR extends BasicGameState {
                  this.charImg
                 );
         if(this.result != TrainResult.LEVEL_OK){
-            g.drawImage(this.charImg, x+50,y+30,Color.red);
+            g.drawImage(this.charImg, x+100,y-250,Color.red);
             g.drawImage(this.charImg.getScaledCopy(30), 400, 300,Color.red);
         }
         else{
-            g.drawImage(this.charImg, x+50,y+30,Color.white);
+            g.drawImage(this.charImg, x+100,y-250,Color.white);
             g.drawImage(this.charImg.getScaledCopy(30), 400, 300,Color.white);
         }
 
@@ -208,8 +209,12 @@ public class MainTestOCR extends BasicGameState {
 
         // Increase time step and update data set for rendering
         this.TIME_STEP += delta;
-        if(this.TIME_STEP >= 500){
-            this.TIME_STEP -= 500;
+        int value = 100;
+        if(this.result == TrainResult.LEVEL_OK) {
+            value = 750;
+        }
+        if(this.TIME_STEP >= value){
+            this.TIME_STEP -= value;
             this.dataSet = (this.dataSet+1)%this.trainer.getNbDataSet();
         }
 

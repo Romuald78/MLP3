@@ -192,9 +192,9 @@ public class MainTestMLP extends BasicGameState
         // Create layers (size + activation functions)
         this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
         this.layers.add( new LayerStruct(3, new TanH() ) );
-        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new SoftMax() ) );
         // Set filename
-        this.saveFileName = "LCD7.mlp";
+        this.saveFileName = "LCD7_softmax.mlp";
         //*/
 
         /* ========== AutoEncoder ==========
