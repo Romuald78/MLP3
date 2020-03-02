@@ -20,13 +20,18 @@ public class Training {
     }
 
     public static TrainResult trainMLP(MLP mlp, ITraining trainer, boolean isMinErrorDisplayed, int maxTrainings) {
+        return Training.trainMLP(mlp, trainer, isMinErrorDisplayed, maxTrainings, false);
+    }
+
+    public static TrainResult trainMLP(MLP mlp, ITraining trainer, boolean isMinErrorDisplayed, int maxTrainings, boolean isOrdered) {
         // Train with ITraining interface
         double learningRate = trainer.getMaxLearningRate();
         double err    = 10000;
         double errMin = 10000;
-        int countOK  = 0;
-        int countBAD = 0;
-        int nbTrains = 0;
+        int countOK   = 0;
+        int countBAD  = 0;
+        int nbTrains  = 0;
+        int r         = 0;
         while(     countOK  < trainer.getNbMaxCorrectDataSet()
                 && countBAD < trainer.getNbMaxBadDataSet()
                 && nbTrains < maxTrainings
@@ -34,7 +39,12 @@ public class Training {
             // increase nbtrains
             nbTrains++;
             // get random data set number
-            int r = (int)(Math.random()*trainer.getNbDataSet());
+            if(isOrdered){
+                r = (r+1)%trainer.getNbDataSet();
+            }
+            else{
+                r = (int)(Math.random()*trainer.getNbDataSet());
+            }
             // Get input and output arrays from random data set number
             double[] input  = trainer.getInputDataSet(r);
             double[] output = trainer.getOutputDataSet(r);

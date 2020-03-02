@@ -41,12 +41,12 @@ public class TrainerOCR implements ITraining {
 
     @Override
     public double getAllowedError() {
-        return 0.01;
+        return 0.1;
     }
 
     @Override
     public int getNbMaxCorrectDataSet() {
-        return 150;
+        return 300;
     }
 
     @Override
@@ -61,16 +61,16 @@ public class TrainerOCR implements ITraining {
 
     @Override
     public int getOutputSize() {
-        // 26 letters, 10 numbers, 1 output for all other characters
-        return 10+26+1; //26+10+1;
+        // 26 letters, lower ad upper cases, 10 numbers, 1 output for all other characters (question mark '?')
+        return 10+26+26+1;
     }
 
     @Override
     public int getNbDataSet() {
-        // 26 letters
+        // 26 letters x2
         // 10 numbers
         // 1 unknown character
-        return 10+26+1; //26+10;
+        return 10+26+26+1;
     }
 
     public String getCharFromDataSet(int num){
@@ -80,9 +80,14 @@ public class TrainerOCR implements ITraining {
             num += '0';
         }
         else if(num<36){
-            // letter
+            // letter upper case
             num -=10;
             num += 'A';
+        }
+        else if(num<62){
+            // letter lower case
+            num -=36;
+            num += 'a';
         }
         else{
             num = '?';
@@ -145,6 +150,8 @@ public class TrainerOCR implements ITraining {
         String[] out = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                          "A","B","C","D","E","F","G","H","I","J","K","L","M",
                          "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+                         "a","b","c","d","e","f","g","h","i","j","k","l","m",
+                         "n","o","p","q","r","s","t","u","v","w","x","y","z",
                          "?"
                         };
         return out;

@@ -111,13 +111,13 @@ public class MainTestOCR extends BasicGameState {
         this.getVersion();
 
         // Set filename for save/restore
-        this.saveFileName = "OCR_softmax_mini.mlp";
+        this.saveFileName = "OCR2_softmax_0_1.mlp";
 
         // Create trainer
         this.trainer = new TrainerOCR();
 
         // Create MLP data
-        int[] sizes = { this.trainer.getInputSize(), 16, this.trainer.getOutputSize() };
+        int[] sizes = { this.trainer.getInputSize(), 48, this.trainer.getOutputSize() };
         ActivationFunction af  = new TanH();
         ActivationFunction af2 = new SoftMax();
 
@@ -141,7 +141,7 @@ public class MainTestOCR extends BasicGameState {
         this.charImg = new Image(TrainerOCR.THUMB_SIZE,TrainerOCR.THUMB_SIZE);
 
         // Set size of MLP display
-        SlickDisplayMLP.setSize(15);
+        SlickDisplayMLP.setSize(11);
     }
 
 
@@ -157,11 +157,11 @@ public class MainTestOCR extends BasicGameState {
 
         // Set reference
         float refX = 1650;
-        float refY = 420;
+        float refY = 290;
 
         // prepare x and y position
         float x = refX-(4-this.mlp.getNbLayers())*175;
-        float y = refY + (this.dataSet * 20);
+        float y = refY + (this.dataSet * 16);
 
         // Get Screen position (IN) and cannon angle (OUT) according to number of dataset
         double[] in  = tr.getInputDataSet(dataSet);
@@ -197,7 +197,7 @@ public class MainTestOCR extends BasicGameState {
 
         // train MLP (only if it has to)
         if (this.result == TrainResult.MAX_ITERATION) {
-            this.result = Training.trainMLP(this.mlp, this.trainer, false, 5000);
+            this.result = Training.trainMLP(this.mlp, this.trainer, false, 8000, true);
             // save and display if finished correctly
             if(this.result == TrainResult.LEVEL_OK){
                 // Save LCD
