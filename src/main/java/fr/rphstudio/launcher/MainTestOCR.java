@@ -117,12 +117,12 @@ public class MainTestOCR extends BasicGameState {
         this.trainer = new TrainerOCR();
 
         // Create MLP data
-        int[] sizes = { this.trainer.getInputSize(), 32, 16, this.trainer.getOutputSize() };
+        int[] sizes = { this.trainer.getInputSize(), 16, this.trainer.getOutputSize() };
         ActivationFunction af  = new TanH();
         ActivationFunction af2 = new SoftMax();
 
         CostFunction cf = new Quadratic();
-        ActivationFunction[] afs = {af, af, af2};
+        ActivationFunction[] afs = {af, af2};
 
         // instanciate MLP
         this.mlp = new MLP(sizes, afs, cf);
@@ -160,7 +160,7 @@ public class MainTestOCR extends BasicGameState {
         float refY = 420;
 
         // prepare x and y position
-        float x = refX;
+        float x = refX-(4-this.mlp.getNbLayers())*175;
         float y = refY + (this.dataSet * 20);
 
         // Get Screen position (IN) and cannon angle (OUT) according to number of dataset
