@@ -111,7 +111,7 @@ public class MainTestOCR extends BasicGameState {
         this.getVersion();
 
         // Set filename for save/restore
-        this.saveFileName = "OCR_softmax.mlp";
+        this.saveFileName = "OCR_softmax_mini.mlp";
 
         // Create trainer
         this.trainer = new TrainerOCR();
