@@ -1,0 +1,25 @@
+https://www.codecogs.com/latex/eqneditor.php
+
+----------------------------------------
+EQUATIONS "FORWARD"
+----------------------------------------
+Z^{ j,i} = B^{ j,i } + \sum_{ k }^{ } \left (  A^{ j-1,k } . W^{ j-1,i,k }  \right ) 
+
+A^{ j,i } = \sigma \left ( Z^{ j,i } \right )
+
+J = \sum_{i}^{ } \left (  A^{ L,i }-E^{ i }  \right )^{ 2 } 
+
+
+----------------------------------------
+EQUATIONS : DERIVEES
+----------------------------------------
+DJA^{ L,i } = \frac{\mathrm{d} J  }{\mathrm{d} A^{ L,i }  }  = J'\left ( A^{ L,i }, E^{ i } \right )
+
+DJZ^{ L,i } = \frac{\mathrm{d} J  }{\mathrm{d} Z^{ L,i }  }  = \frac{\mathrm{d} J }{\mathrm{d}  A ^ { L,i  }  } . \frac{\mathrm{d} A ^ { L,i  }  }{\mathrm{d} Z^{ L,i }  } =    DJA^{ L,i } . \sigma' \left ( Z^{ L,i } \right )
+
+DJW^{ L,i,k } = \frac{\mathrm{d} J  }{\mathrm{d} W^{ L,i,k }  }  = \frac{\mathrm{d} J }{\mathrm{d}  Z ^ { L,i  }  } . \frac{\mathrm{d} Z ^ { L,i  }  }{\mathrm{d} W^{ L,i,k }  } =    DJZ^{ L,i } . A ^{ L-1,k } 
+
+DJB^{ L, i  } = \frac{\mathrm{d} J  }{\mathrm{d} B^{ L,i }  }  = \frac{\mathrm{d} J }{\mathrm{d}  Z ^ { L,i  }  } . \frac{\mathrm{d} Z ^ { L,i  }  }{\mathrm{d} B^{ L ,i }  } =    DJZ^{ L,i }
+
+
+
