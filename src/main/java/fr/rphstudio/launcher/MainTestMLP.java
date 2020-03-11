@@ -184,6 +184,8 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
         // Set filename
         this.saveFileName = "scareCatBox.mlp";
+        // set display size
+        SlickDisplayMLP.setSize(45);
         //*/
 
         //* ========== LCD 7 ==========
@@ -195,6 +197,8 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new SoftMax() ) );
         // Set filename
         this.saveFileName = "LCD7_softmax.mlp";
+        // set display size
+        SlickDisplayMLP.setSize(50);
         //*/
 
         /* ========== AutoEncoder ==========
@@ -208,6 +212,8 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
         // Set filename
         this.saveFileName = "autoEncoder.mlp";
+        // set display size
+        SlickDisplayMLP.setSize(45);
         //*/
 
         /* ========== XOR ==========
@@ -219,7 +225,23 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
         // Set filename
         this.saveFileName = "XOR.mlp";
+        // set display size
+        SlickDisplayMLP.setSize(90);
         //*/
+
+        /* ========== STUDENTS ==========
+        // Create trainer
+        this.trainer = new TrainerStudents("./test.csv");
+        // Create layers (size + activation functions)
+        this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
+        this.layers.add( new LayerStruct(16, new TanH() ) );
+        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        // Set filename
+        this.saveFileName = "STUDENTS.mlp";
+        // set display size
+        SlickDisplayMLP.setSize(40);
+        //*/
+
 
         // Init the application
         this.init();
@@ -255,11 +277,6 @@ public class MainTestMLP extends BasicGameState
             this.mlp = loadedMLP;
             this.result = TrainResult.LEVEL_OK;
         }
-
-        // set display size
-        SlickDisplayMLP.setSize(45);
-
-
     }
 
     //------------------------------------------------

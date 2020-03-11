@@ -20,11 +20,6 @@ public class SoftMax implements ActivationFunction {
 
     @Override
     public double derivative(double x, double[] allX) {
-
-        // /!\
-        // Either this code sucks, or there is something i've missed in using SoftMax activation function (?)
-        // /!\
-
         // Get sum of all X
         double v = 0;
         for(int i=0;i<allX.length;i++){

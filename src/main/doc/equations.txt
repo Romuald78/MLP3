@@ -1,25 +1,35 @@
 https://www.codecogs.com/latex/eqneditor.php
+png - Latin Modern - 18pt - 100 - blanch
+
 
 ----------------------------------------
 EQUATIONS "FORWARD"
 ----------------------------------------
-Z^{ j,i} = B^{ j,i } + \sum_{ k }^{ } \left (  A^{ j-1,k } . W^{ j-1,i,k }  \right ) 
+Z^{ j,i} = B^{ j,i } + \sum_{ k }^{ } \left (  A^{ j-1,k } . W^{ j,i,k }  \right ) 
 
-A^{ j,i } = \sigma \left ( Z^{ j,i } \right )
+A^{ j,i } = \sigma \left ( Z^{ j,i } \right ) = ... = \frac{1}{1 + e^{ -x}}  
 
-J = \sum_{i}^{ } \left (  A^{ L,i }-E^{ i }  \right )^{ 2 } 
+J = \sum_{i}^{ } Error( A^{ L, i },E^{ i } ) = ... = \sum_{i}^{ } \left (  A^{ L,i }-E^{ i }  \right )^{ 2 } 
 
 
 ----------------------------------------
 EQUATIONS : DERIVEES
 ----------------------------------------
-DJA^{ L,i } = \frac{\mathrm{d} J  }{\mathrm{d} A^{ L,i }  }  = J'\left ( A^{ L,i }, E^{ i } \right )
+DJA^{ L,i } = \frac{\mathrm{d} J  }{\mathrm{d} A^{ L,i }  }  = Error'\left ( A^{ L,i }, E^{ i } \right )
 
-DJZ^{ L,i } = \frac{\mathrm{d} J  }{\mathrm{d} Z^{ L,i }  }  = \frac{\mathrm{d} J }{\mathrm{d}  A ^ { L,i  }  } . \frac{\mathrm{d} A ^ { L,i  }  }{\mathrm{d} Z^{ L,i }  } =    DJA^{ L,i } . \sigma' \left ( Z^{ L,i } \right )
+DJZ^{ j,i } = \frac{\mathrm{d} J  }{\mathrm{d} Z^{ j,i }  }  = \frac{\mathrm{d} J }{\mathrm{d}  A ^ { j,i  }  } . \frac{\mathrm{d} A ^ { j,i  }  }{\mathrm{d} Z^{ j,i }  } =    DJA^{ j,i } . \sigma' \left ( Z^{ j,i } \right )
 
-DJW^{ L,i,k } = \frac{\mathrm{d} J  }{\mathrm{d} W^{ L,i,k }  }  = \frac{\mathrm{d} J }{\mathrm{d}  Z ^ { L,i  }  } . \frac{\mathrm{d} Z ^ { L,i  }  }{\mathrm{d} W^{ L,i,k }  } =    DJZ^{ L,i } . A ^{ L-1,k } 
+DJW^{ j,i,k } = \frac{\mathrm{d} J  }{\mathrm{d} W^{ j,i,k }  }  = \frac{\mathrm{d} J }{\mathrm{d}  Z ^ { j,i  }  } . \frac{\mathrm{d} Z ^ { j,i  }  }{\mathrm{d} W^{ j,i,k }  } =    DJZ^{ j,i } . A ^{ j-1,k } 
 
-DJB^{ L, i  } = \frac{\mathrm{d} J  }{\mathrm{d} B^{ L,i }  }  = \frac{\mathrm{d} J }{\mathrm{d}  Z ^ { L,i  }  } . \frac{\mathrm{d} Z ^ { L,i  }  }{\mathrm{d} B^{ L ,i }  } =    DJZ^{ L,i }
+DJB^{ j, i  } = \frac{\mathrm{d} J  }{\mathrm{d} B^{ j,i }  }  = \frac{\mathrm{d} J }{\mathrm{d}  Z ^ { j,i  }  } . \frac{\mathrm{d} Z ^ { j,i  }  }{\mathrm{d} B^{ j ,i }  } =    DJZ^{ j,i }
 
+DJA^{ j-1,k } = \frac{\mathrm{d} J  }{\mathrm{d} A^{ j-1,k }  }  = \sum_{i}^{ }  \left (\frac{\mathrm{d} J }{\mathrm{d}  Z ^ { j, i  }  } . \frac{\mathrm{d} Z ^ { j,i  }  }{\mathrm{d} A^{ j-1, k }  }  \right ) = \sum_{i}^{ } \left (  DJZ ^{ j , i  } . W^{ j,i,k } \right )  
+
+----------------------------------------
+EQUATIONS : MISES A JOUR DES POIDS
+----------------------------------------
+W^{ j,i,k} = W^{ j,i,k} - \left (DJW^{ j,i,k }.learnRate   \right )
+
+B^{ j,i} = B^{ j,i} - \left (DJB^{ j,i }.learnRate   \right )
 
 
