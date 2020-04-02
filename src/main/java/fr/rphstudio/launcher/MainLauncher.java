@@ -133,10 +133,10 @@ public class MainLauncher extends StateBasedGame
         Log.setVerbose(false);
 
         // Add game state controller
-//        this.addState( new MainTestMLP() );
-//      this.addState( new MainScareCat() );
+        this.addState( new MainTestMLP() );
+//        this.addState( new MainScareCat() );
 //        this.addState( new MainScareCat2() );
-        this.addState( new MainTestOCR() );
+//        this.addState( new MainTestOCR() );
     }
 
     

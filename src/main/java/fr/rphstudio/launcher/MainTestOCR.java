@@ -7,6 +7,7 @@ package fr.rphstudio.launcher;
 
 import fr.rphstudio.mlp.MLP;
 import fr.rphstudio.mlp.activation.ActivationFunction;
+import fr.rphstudio.mlp.activation.Sigmoid;
 import fr.rphstudio.mlp.activation.SoftMax;
 import fr.rphstudio.mlp.activation.TanH;
 import fr.rphstudio.mlp.cost.CostFunction;

@@ -6,9 +6,7 @@
 package fr.rphstudio.launcher;
 
 import fr.rphstudio.mlp.MLP;
-import fr.rphstudio.mlp.activation.ActivationFunction;
-import fr.rphstudio.mlp.activation.SoftMax;
-import fr.rphstudio.mlp.activation.TanH;
+import fr.rphstudio.mlp.activation.*;
 import fr.rphstudio.mlp.cost.CostFunction;
 import fr.rphstudio.mlp.cost.Quadratic;
 import fr.rphstudio.mlp.training.*;
@@ -174,19 +172,6 @@ public class MainTestMLP extends BasicGameState
         // Init cost function
         this.cf = new Quadratic();
 
-        /* ========== SCARECAT ==========
-        // Create trainer
-        this.trainer = new TrainerCameraBox();
-        // Create layers (size + activation functions)
-        this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
-        this.layers.add( new LayerStruct(16, new TanH() ) );
-        this.layers.add( new LayerStruct(16, new TanH() ) );
-        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
-        // Set filename
-        this.saveFileName = "scareCatBox.mlp";
-        // set display size
-        SlickDisplayMLP.setSize(45);
-        //*/
 
         //* ========== LCD 7 ==========
         // Create trainer
@@ -196,7 +181,7 @@ public class MainTestMLP extends BasicGameState
         this.layers.add( new LayerStruct(3, new TanH() ) );
         this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new SoftMax() ) );
         // Set filename
-        this.saveFileName = "LCD7_softmax.mlp";
+        this.saveFileName = "";
         // set display size
         SlickDisplayMLP.setSize(50);
         //*/
@@ -206,14 +191,14 @@ public class MainTestMLP extends BasicGameState
         this.trainer = new TrainerAutoEncoder();
         // Create layers (size + activation functions)
         this.layers.add( new LayerStruct(this.trainer.getInputSize() , null ) ); // no activation function : input layer
-        this.layers.add( new LayerStruct(16, new TanH() ) );
-        this.layers.add( new LayerStruct(6, new TanH() ) );
-        this.layers.add( new LayerStruct(16, new TanH() ) );
-        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new TanH() ) );
+        this.layers.add( new LayerStruct(7, new Sigmoid() ) );
+        this.layers.add( new LayerStruct(6, new Sigmoid() ) );
+        this.layers.add( new LayerStruct(7, new Sigmoid() ) );
+        this.layers.add( new LayerStruct(this.trainer.getOutputSize(), new Sigmoid() ) );
         // Set filename
-        this.saveFileName = "autoEncoder.mlp";
+        this.saveFileName = "";
         // set display size
-        SlickDisplayMLP.setSize(45);
+        SlickDisplayMLP.setSize(15);
         //*/
 
         /* ========== XOR ==========
@@ -290,7 +275,17 @@ public class MainTestMLP extends BasicGameState
         // Get MLP information and display neurons according to
         SlickDisplayMLP.displayMLP(this.mlp,g,this.trainer,REF_X,MID_Y);
 
-        // Get mouse position
+        if(this.result == TrainResult.LEVEL_OK) {
+            g.setColor(Color.green);
+            g.drawString("OK!",50,50);
+        }
+        else {
+            g.setColor(Color.red);
+            g.drawString("SEARCHING...",50,50);
+
+        }
+
+            // Get mouse position
         float x = container.getInput().getMouseX();
         float y = container.getInput().getMouseY();
         // Display message according to position

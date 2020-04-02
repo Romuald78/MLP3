@@ -24,7 +24,7 @@ public class TrainerAutoEncoder implements ITraining {
 
     @Override
     public double getAllowedError() {
-        return 0.25;
+        return 0.2;
     }
 
     @Override
@@ -65,7 +65,6 @@ public class TrainerAutoEncoder implements ITraining {
         for(int i=0;i<this.getInputSize();i++){
             in[i] = ((num>>i)&0x00000001) == 1 ? 1.0 : -1.0;
         }
-
         // return input data
         return in;
     }
