@@ -1,0 +1,17 @@
+VIDEO 3 BROWN 1 BLUE
+https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
+
+BLOG equations backpropagation 
+https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/
+
+BLOG equations + code python backpropagation 
+http://www.adeveloperdiary.com/data-science/deep-learning/neural-network-with-softmax-in-python/
+
+BLOG equations CNN backpropagation
+https://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/
+
+
+
+
+
+
